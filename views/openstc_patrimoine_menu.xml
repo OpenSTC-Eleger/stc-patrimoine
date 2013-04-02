@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	    
+		<record id="action_openstc_patrimoine_equipment_form" model="ir.actions.act_window">
+            <field name="name">Equipments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.equipment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        	<field name="view_ids" eval="[(5,),(0,0,{'sequence':2,'view_mode':'form','view_id':ref('openstc_patrimoine_equipment_form')}),
+        	    (0,0,{'sequence':1,'view_mode':'tree','view_id':ref('openstc_patrimoine_equipment_tree')})]"/>
+        </record>
+	    
+		<record id="action_openstc_patrimoine_site_form" model="ir.actions.act_window">
+            <field name="name">Sites</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.patrimoine.site</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+		</record>
+	    
+		<record id="action_openstc_patrimoine_contract_view_all" model="ir.actions.act_window">
+            <field name="name">Contracts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.patrimoine.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+		</record>
+	    
+		
+		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="4" name="Gestion Patrimoine"/>
+		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion Contrats" parent="base.openstc_patrimoine_main_menu"/>
+		<menuitem id="openstc_patrimoine_contract_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_view_all"
+		    parent="openstc_patrimoine_contract"/>
+		
+		
+		
+	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openstc.menu_configuration" sequence="1"
+	        name="patrimoine"/>
+	    
+	    <menuitem id="openstc_patrimoine_equipment_form_menu" parent="openstc_patrimoine_menu_configuration"
+	        sequence="1" action="action_openstc_patrimoine_equipment_form"/>
+	    <menuitem id="openstc_patrimoine_site_form_menu" parent="openstc_patrimoine_menu_configuration"
+	        sequence="1" action="action_openstc_patrimoine_site_form"/>
+	    
+	    
+	    
+	    
+	</data>
+</openerp>

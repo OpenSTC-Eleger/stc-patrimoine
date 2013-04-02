@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	    <record id="openstc_patrimoine_equipment_form" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.equipment.form</field>
+            <field name="model">openstc.equipment</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form>
+	            	<notebook>
+	            	    <page string="General">
+	            	        <field name="product_image" colspan="1" widget="image" nolabel="1"/>
+	            	        <newline/>
+	            	        <field name="name"/>
+				           	<field name="categ_id"/>
+				           	<field name="service"/>
+				           	<field name="manager_id"/>
+	            	        <field name="marque"/>
+	            	        <field name="year"/>
+	            	        <field name="purchase_price"/>
+	            	        <field name="list_price"/>
+	            	        <field name="length_amort"/>
+            		    </page>
+	            	    <page string="Vehicule">
+	            	        <field name="cv"/>
+	            	        <field name="km"/>
+	            	        <field name="time"/>
+	            	        <field name="immat"/>
+	            	    </page>
+	            	</notebook>
+            	</form>
+            </field>
+	    </record>
+	    
+	    <record id="openstc_patrimoine_equipment_tree" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.equipment.tree</field>
+            <field name="model">openstc.equipment</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+        		<tree>
+        		   <field name="name"/>
+        		   <field name="service"/>
+        		   <field name="marque"/>
+        		   <field name="manager_id"/>
+        		   <field name="qty_available"/>
+        		</tree>
+        	</field>
+	    </record>
+	    
+	    <record id="openstc_patrimoine_site_tree" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.site.tree</field>
+            <field name="model">openstc.patrimoine.site</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+        		<tree>
+        		   <field name="name"/>
+        		   <field name="service_site_id"/>
+        		   <field name="manager_id"/>
+        		   <field name="categ_id"/>
+        		   <field name="site_parent_id"/>
+        		</tree>
+        	</field>
+	    </record>
+	    
+	    <record id="openstc_patrimoine_site_form" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.site.form</field>
+            <field name="model">openstc.patrimoine.site</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form>
+            	    <field name="product_image" widget="image" nolabel="1"/>
+            	    <group col="4" colspan="3">
+	           	        <field name="name"/> <!-- product.product -->
+			           	<field name="categ_id"/> <!-- product.product -->
+			           	<field name="service_site_id"/>
+			           	<field name="site_parent_id"/>
+		           	</group>
+	            	<notebook colspan="4">
+	            	    <page string="Terrain">
+	            	    	<group col="4" colspan="4">
+	            	    	    <field name="manager_id"/>
+		            	    	<field name="surface"/>
+		            	    	<field name="lenght"/>
+		            	    	<field name="width"/>
+		            	    	<field name="build_surface"/>
+		            	    	<!-- Ref Cadastale ? -->
+		            	    </group>
+	            	    </page>
+            		    <page string="Bâtiment">
+            		    	<group col="4" colspan="4">
+	            		    	<group string="Infos Générales" colspan="4" col="6">
+	            		    	    <field name="manager_id"/>
+	            		    	    <field name="sdo"/>
+		            		    	<field name="shon"/>
+		            		    	<field name="effectif_personnel"/>
+		            		    	<field name="time_openning"/>
+		            		    	<group col="2" colspan="2">
+		            		    	    <field name="frequentation_an"/>
+		            		    		<field name="frequentation_max"/>
+		            		    	</group>
+		            		    </group>
+	            		    	<group colspan="4" col="6" string="Infos Techniques">
+		            		    	<field name="surface"/>
+		            		    	<field name="floor_nb"/>
+		            		    	<field name="built_year"/>
+		            		    	<field name="mh_ismh_classification"/>
+		            		    	<field name="erp_classification"/>
+		            		    	<field name="security_com"/>
+		            		    	<field name="build_type"/>
+		            		    	<field name="luminaire_type"/>
+		            		    	<newline/>
+		            		    	<field name="floor_nature"/>
+		            		    	<field name="wall_revetment"/>
+	            		    	</group>
+							</group>            		    	
+            		    </page>
+            		    <page string="Voirie">
+            		        <group col="4" colspan="4">
+					           	<field name="revetment_type"/>
+					           	<field name="luminaire_type"/>
+				           	</group>
+            		    </page>
+            		    
+	            	</notebook>
+            	</form>
+            </field>
+	    </record>
+	    
+	    
+	    <record id="openstc_patrimoine_contract_tree" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.tree</field>
+            <field name="model">openstc.patrimoine.contract</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+        		<tree>
+        		    <field name="sequence"/>
+        		   <field name="name"/>
+        		   <field name="patrimoine_id"/>
+        		   <field name="supplier_id"/>
+        		   <field name="last_inter"/>
+        		   <field name="date_order"/>
+        		</tree>
+        	</field>
+	    </record>
+	    
+	    <record id="openstc_patrimoine_contract_form" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.form</field>
+            <field name="model">openstc.patrimoine.contract</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+        		<form>
+        		    <notebook>
+        		        <page string="General">
+		        		    <group colspan="4" col="4" string="General Infos">
+			        		   <field name="name"/>
+			        		   <field name="sequence" required="1"/>
+			        		   <field name="patrimoine_id" domain="[('type_prod','=','patrimoine')]" required="1"/>
+			        		   <field name="date_order" required="1"/>
+		        		   	</group>
+							<group colspan="4" col="4" string="Intervenant">
+								<field name="internal_inter"/>
+								<group colspan="2" col="2">
+								    <field name="supplier_id" attrs="{'invisible':[('internal_inter','=',True)]}"/>
+									<field name="technical_service_id" attrs="{'invisible':[('internal_inter','=',False)]}"/>
+							   </group>
+								<newline/>
+								<field name="type_intervention" nolabel="1" colspan="4">
+									<tree editable="top" string="Intervention Type(s)">
+									    <field name="name"/>
+									</tree>
+								</field>
+							</group>
+							<group colspan="3" col="4" string="Reccurence">
+								<field name="recurrence_weight"/>
+								<field name="recurrence" nolabel="1" colspan="2"/>
+							</group>
+							<field name="first_inter" required="1"/>
+							<field name="last_inter" readonly="1"/>
+							<newline/>
+							<field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+        				</page>
+        				<page string="Interventions generated">
+        				    <!-- <field name="intervention_ids"/> -->
+        				</page>
+        			</notebook>
+        		</form>
+        	</field>
+	    </record>
+	    
+	    
+	</data>
+</openerp>
