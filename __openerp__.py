@@ -17,8 +17,9 @@
     It extends openstc.equipment and openstc.site from openstc base module.
     """,
     "data": [
-        "views/openstc_patrimoine_view.xml",
-        "views/openstc_patrimoine_menu.xml",
+            "views/openstc_patrimoine_data.xml", 
+            "views/openstc_patrimoine_view.xml",
+            "views/openstc_patrimoine_menu.xml",
              ],
     "demo": [],
     "test": [],

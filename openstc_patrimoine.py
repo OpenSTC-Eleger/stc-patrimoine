@@ -66,21 +66,6 @@ class openstc_patrimoine_site(osv.osv):
         'sale_ok':lambda *a:False,
         }
 
-    """#FIXME: bug when _inherits refer to duplicate fields, orm module keeps only the last object storing the field wanted,
-    #instead of writing this field on each object containing it
-    def create(self, cr, uid, vals, context=None):
-        if not context or context is None:
-            context = {}
-        if 'name' in vals:
-            context.update({'name_prod':vals['name']})
-        return super(openstc_patrimoine_site, self).create(cr, uid, vals, context=context)
-    
-    def write(self, cr, uid, ids, vals, context=None):
-        if not context or context is None:
-            context = {}
-        if 'name' in vals:
-            context.update({'name_prod':vals['name']})
-        return super(openstc_patrimoine_site, self).create(cr, uid, ids, vals, context=context)"""
 
 openstc_patrimoine_site()
 

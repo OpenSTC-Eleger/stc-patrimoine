@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-	<data>
-	    
+	<data noupdate="1">
+	    <record id="sequence_patrimoine_contract_number_type" model="ir.sequence.type">
+			<field name="name">Contract Number</field>
+			<field name="code">contract.number</field>
+		</record>
+		<record id="sequence_asset_patrimoine_contract_number" model="ir.sequence">
+			<field name="name">Contract Number</field>
+			<field name="code">contract.number</field>
+			<field name="prefix">C-%(year)s/</field>
+			<field name="padding" eval="4" />
+		</record>
 	    
 	</data>
 </openerp>

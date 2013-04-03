@@ -29,7 +29,7 @@
 		</record>
 	    
 		
-		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="4" name="Gestion Patrimoine"/>
+		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="10" name="Gestion Patrimoine"/>
 		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion Contrats" parent="base.openstc_patrimoine_main_menu"/>
 		<menuitem id="openstc_patrimoine_contract_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_view_all"
 		    parent="openstc_patrimoine_contract"/>

@@ -154,8 +154,9 @@
 		        		    <group colspan="4" col="4" string="General Infos">
 			        		   <field name="name"/>
 			        		   <field name="sequence" required="1"/>
-			        		   <field name="patrimoine_id" domain="[('type_prod','=','patrimoine')]" required="1"/>
 			        		   <field name="date_order" required="1"/>
+			        		   <field name="date_end_order"/>
+			        		   <field name="patrimoine_id" domain="[('type_prod','=','patrimoine')]" required="1"/>
 		        		   	</group>
 							<group colspan="4" col="4" string="Intervenant">
 								<field name="internal_inter"/>
@@ -164,8 +165,9 @@
 									<field name="technical_service_id" attrs="{'invisible':[('internal_inter','=',False)]}"/>
 							   </group>
 								<newline/>
+								<separator string="Intervention type(s) contracted" colspan="4"/>
 								<field name="type_intervention" nolabel="1" colspan="4">
-									<tree editable="top" string="Intervention Type(s)">
+									<tree>
 									    <field name="name"/>
 									</tree>
 								</field>
@@ -176,8 +178,13 @@
 							</group>
 							<field name="first_inter" required="1"/>
 							<field name="last_inter" readonly="1"/>
+							<field name="next_inter"/>
 							<newline/>
 							<field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+        					<group colspan="2" col="2">
+        					    <button name="get_all_recurrences" icon="gtk-execute" type="object" string="Compute recurrence"/>
+        						<button name="confirm" string="Accept contract" icon="gtk-go-forward" states="draft"/>
+        					</group>
         				</page>
         				<page string="Interventions generated">
         				    <!-- <field name="intervention_ids"/> -->
