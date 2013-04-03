@@ -25,6 +25,10 @@ from osv import fields, osv
 import calendar
 from mx.DateTime.mxDateTime import strptime
 from datetime import datetime
+from lxml import etree
+from lxml.builder import E
+import re
+from tools.translate import _
 
 class openstc_patrimoine_contract(osv.osv):
     _name = "openstc.patrimoine.contract"
@@ -61,6 +65,7 @@ class openstc_patrimoine_contract(osv.osv):
         }
 
     #compute next inter date and create all the interventions associated
+    #TOCHECK: do we keep daily and weekly recurrence or remove them?
     def get_all_recurrences(self, cr, uid, ids, context=None):
         dates = []
         for contract in self.browse(cr, uid, ids, context=context):
@@ -112,12 +117,12 @@ class openstc_patrimoine_contract(osv.osv):
                             dates.append('-'.join([str(year_iter),
                                                    '0' + str(month) if month < 10 else  str(month),
                                                    '0' + str(day_iter) if day_iter <10 else  str(day_iter)]))
-                    #TOCHECK: do we keep daily and weekly recurrence or remove them? 
+                            
                 #TODO: write all tasks at each dates computed.
-            #write next_inter date if exists
             else:
                 raise osv.except_osv("Error","No End Date registered for this contract. This case is not efficient for now, please supply an end date.")
             now = datetime.now()
+            #write earlier date of intervention (dates before now are ignored)
             for date in dates:
                 if date > str(now):
                     self.write(cr, uid, [contract.id], {'next_inter':date}, context=context)
@@ -125,8 +130,67 @@ class openstc_patrimoine_contract(osv.osv):
             
         return
     
+    def fields_get(self, cr, uid, allfields=None, context=None, write_access=True):
+        res = super(openstc_patrimoine_contract,self).fields_get(cr, uid, allfields, context, write_access)
+        for data in self.pool.get("openstc.patrimoine.contract.intervention.type").parse_datas(cr, uid, context):
+            res[data[0]] = {'type':'boolean','string':data[1]}
+        return res
     
-
+    def is_type_inter(self, name):
+        return name.startswith('type_inter_')
+    
+    def get_type_inter_id(self, name):
+        return int(name.split('type_inter_')[1])
+    
+    #write values to many2many field according to dynamic fields values
+    def compute_type_inter_values(self, cr, uid, values, context=None):
+        to_add = []
+        to_remove = []
+        dynamic_fields = [x[0] for x in self.pool.get("openstc.patrimoine.contract.intervention.type").parse_datas(cr, uid, context)]
+        for key, value in values.items():
+            if key in dynamic_fields:
+                if self.is_type_inter(key):
+                    if value:
+                        to_add.append(self.get_type_inter_id(key)) 
+                    else:
+                        to_remove.append(self.get_type_inter_id(key))
+        values['type_intervention'] = [(3,x) for x in to_remove] + [(4,x) for x in to_add]
+        return values
+    
+    #write values to dynamic fields according to m2m values
+    def compute_dynamic_type_inter_values(self, cr, uid, values, context=None):
+        dynamic_fields = [x[0] for x in self.pool.get("openstc.patrimoine.contract.intervention.type").parse_datas(cr, uid, context)]
+        if 'type_intervention' in values:
+            for field in dynamic_fields:
+                if self.get_type_inter_id(field) in values['type_intervention']:
+                    values[field] = True
+                else:
+                    values[field] = False
+        return values
+    
+    def create(self, cr, uid, vals, context=None):
+        self.compute_type_inter_values(cr, uid, vals, context)
+        res = super(openstc_patrimoine_contract, self).create(cr, uid, vals, context=None)
+        return res
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        self.compute_type_inter_values(cr, uid, vals, context)
+        res = super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=None)
+        return res
+    
+    def read(self, cr, uid, ids, fields=None, context=None, load='_classic_read'):
+        #force reading of dynamic fields
+        if not fields:
+            fields = self.fields_get(cr, uid, context=context).keys()
+        if not 'type_intervention' in fields:
+            fields.append('type_intervention')
+        res = super(openstc_patrimoine_contract,self).read(cr, uid, ids, fields, context=context, load=load)
+        if not isinstance(res, list):
+            res = [res]
+        for values in res:
+            self.compute_dynamic_type_inter_values(cr, uid, values, context)
+        return res
+    
 openstc_patrimoine_contract()
 
 class openstc_patrimoine_contract_intervention_type(osv.osv):
@@ -134,6 +198,54 @@ class openstc_patrimoine_contract_intervention_type(osv.osv):
     _columns = {
         'name':fields.char('Name',size=128, required=True),
         }
+
+    def parse_datas(self, cr, uid, context=None):
+        ret = []
+        ids = self.search(cr, uid, [], context=context)
+        for data in self.browse(cr, uid, ids, context=context):
+            ret.append(('type_inter_%s' % (str(data.id),), data.name))
+        return ret
+    
+    def update_view_inter_type(self, cr, uid, context=None):
+        #get xml object : openstc.patrimoine.contract.inherit.type to overwrite it's arch field
+        view = self.pool.get('ir.model.data').get_object(cr, 1, 'openstc_patrimoine', 'openstc_patrimoine_contract_form_inherit_type', context)
+        if view and view._table_name == 'ir.ui.view':
+            xml = []
+            xml1 = []
+            xml = E.field(
+                          *(E.separator(string=_('Intervention Type(s) contracted'), 
+                                        colspan='4'),
+                            E.group(
+                                   *([E.field(name=x[0]) for x in self.parse_datas(cr, uid, context)]),
+                                   col="6", colspan="4")),
+                          position="replace", 
+                          name="type_intervention")
+            """for data in self.parse_datas(cr, uid, context):
+                xml1.append(E.field(name=data[0]))
+            xml1 = E.group(*(xml1), colspan="4", col="6")
+            xml1.insert(0,E.separator(string=_('Intervention Type(s) contracted'), colspan="4"))
+            xml = E.field(*(xml1), name='type_intervention', position='replace')
+            """
+            xml.addprevious(etree.Comment("GENERATED AUTOMATICALLY BY OPENSTC PATRIMOINE CONTRACTS"))
+            xml_content = etree.tostring(xml, pretty_print=True, xml_declaration=True, encoding="utf-8")
+            #self.write onto xml arch field
+            view.write({'arch': xml_content})
+        return True
+    
+    def create(self, cr, uid, vals, context=None):
+        ret = super(openstc_patrimoine_contract_intervention_type, self).create(cr, uid, vals, context=None)
+        self.update_view_inter_type(cr, uid, context)
+        return ret
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        ret = super(openstc_patrimoine_contract_intervention_type, self).write(cr, uid, ids, vals, context=None)
+        self.update_view_inter_type(cr, uid, context)
+        return ret
+    
+    def delete(self, cr, uid, ids, context=None):
+        ret = super(openstc_patrimoine_contract_intervention_type, self).delete(cr, uid, ids, context=None)
+        self.update_view_inter_type(cr, uid, context)
+        return ret
     
 openstc_patrimoine_contract_intervention_type()
 

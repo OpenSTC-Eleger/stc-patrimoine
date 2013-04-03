@@ -28,12 +28,23 @@
             <field name="view_mode">tree,form</field>
 		</record>
 	    
+		<record id="action_openstc_patrimoine_contract_inter_type_form" model="ir.actions.act_window">
+            <field name="name">Intevention types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.patrimoine.contract.intervention.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+		</record>
 		
 		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="10" name="Gestion Patrimoine"/>
 		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion Contrats" parent="base.openstc_patrimoine_main_menu"/>
 		<menuitem id="openstc_patrimoine_contract_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_view_all"
 		    parent="openstc_patrimoine_contract"/>
 		
+		<menuitem id="openstc_patrimoine_config" sequence="2" name="Configuration" parent="base.openstc_patrimoine_main_menu"/>
+		<menuitem id="openstc_patrimoine_contract_inter_type_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_inter_type_form"
+		    parent="openstc_patrimoine_config"/>
+				
 		
 		
 	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openstc.menu_configuration" sequence="1"

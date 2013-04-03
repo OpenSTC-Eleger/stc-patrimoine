@@ -20,6 +20,7 @@
             "views/openstc_patrimoine_data.xml", 
             "views/openstc_patrimoine_view.xml",
             "views/openstc_patrimoine_menu.xml",
+            "unit_tests/unit_tests.xml",
              ],
     "demo": [],
     "test": [],

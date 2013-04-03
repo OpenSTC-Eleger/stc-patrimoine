@@ -165,7 +165,6 @@
 									<field name="technical_service_id" attrs="{'invisible':[('internal_inter','=',False)]}"/>
 							   </group>
 								<newline/>
-								<separator string="Intervention type(s) contracted" colspan="4"/>
 								<field name="type_intervention" nolabel="1" colspan="4">
 									<tree>
 									    <field name="name"/>
@@ -195,5 +194,27 @@
 	    </record>
 	    
 	    
+	     <record id="openstc_patrimoine_contract_form_inherit_type" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.inherit.type</field>
+            <field name="model">openstc.patrimoine.contract</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="openstc_patrimoine_contract_form"/>
+            <field name="arch" type="xml">
+        		<form>
+        		    <field name="type_intervention" position="after"/>
+	    		</form>
+	    	</field>
+	    </record>
+	    
+	     <record id="openstc_patrimoine_contract_inter_type_form" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.inter.type.form</field>
+            <field name="model">openstc.patrimoine.contract.intervention.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+        		<form>
+					<field name="name"/>
+				</form>
+	    	</field>
+	    </record>
 	</data>
 </openerp>

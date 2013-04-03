@@ -25,12 +25,11 @@ from osv import fields, osv
 
 class openstc_patrimoine_site(osv.osv):
     _name="openstc.patrimoine.site"
-    _inherits = {#'openstc.site':'site_id',
-                 'product.product':'product_id'}
+    _inherits = {'product.product':'product_id'}
     
     _columns = {
-        #'site_id':fields.many2one('openstc.site','Site associé'),
-        'product_id':fields.many2one('product.product','Produit Associé'),
+        'site_id':fields.many2one('openstc.site','Site associé'),
+        'product_id':fields.many2one('product.product','Produit Associé', required=True, ondelete="cascade"),
         'service_site_id':fields.many2one('openstc.service','Service Responsable'),
         'manager_id':fields.many2one('res.users','Responsable'),
         'surface':fields.float('Surface',digits=(4,2)),
