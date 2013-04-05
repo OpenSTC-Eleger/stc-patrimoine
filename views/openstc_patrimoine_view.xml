@@ -10,16 +10,21 @@
 	            	<notebook>
 	            	    <page string="General">
 	            	        <field name="product_image" colspan="1" widget="image" nolabel="1"/>
-	            	        <newline/>
-	            	        <field name="name"/>
-				           	<field name="categ_id"/>
-				           	<field name="service"/>
-				           	<field name="manager_id"/>
-	            	        <field name="marque"/>
-	            	        <field name="year"/>
-	            	        <field name="purchase_price"/>
-	            	        <field name="list_price"/>
-	            	        <field name="length_amort"/>
+		            	    <group col="4" colspan="3">    
+		            	        <field name="name"/>
+					           	<field name="categ_id"/>
+					           	<field name="service"/>
+					           	<field name="manager_id"/>
+		            	        <field name="marque"/>
+		            	        <field name="year"/>
+		            	        <field name="purchase_price"/>
+		            	        <field name="list_price"/>
+		            	        <field name="length_amort"/>
+		            		</group>
+		            		<group colspan="2" col="2">
+			            		<field name="openstc_reservable"/>
+			            		<field name="openstc_maintenance"/>
+			            	</group>
             		    </page>
 	            	    <page string="Vehicule">
 	            	        <field name="cv"/>
@@ -74,19 +79,11 @@
 			           	<field name="categ_id"/> <!-- product.product -->
 			           	<field name="service_site_id"/>
 			           	<field name="site_parent_id"/>
+			           	<field name="openstc_reservable"/>
+			           	<field name="openstc_maintenance"/>
 		           	</group>
 	            	<notebook colspan="4">
-	            	    <page string="Terrain">
-	            	    	<group col="4" colspan="4">
-	            	    	    <field name="manager_id"/>
-		            	    	<field name="surface"/>
-		            	    	<field name="lenght"/>
-		            	    	<field name="width"/>
-		            	    	<field name="build_surface"/>
-		            	    	<!-- Ref Cadastale ? -->
-		            	    </group>
-	            	    </page>
-            		    <page string="Bâtiment">
+	            	    <page string="Bâtiment">
             		    	<group col="4" colspan="4">
 	            		    	<group string="Infos Générales" colspan="4" col="6">
 	            		    	    <field name="manager_id"/>
@@ -114,6 +111,16 @@
 	            		    	</group>
 							</group>            		    	
             		    </page>
+            		    <page string="Terrain">
+	            	    	<group col="4" colspan="4">
+	            	    	    <field name="manager_id"/>
+		            	    	<field name="surface"/>
+		            	    	<field name="lenght"/>
+		            	    	<field name="width"/>
+		            	    	<field name="build_surface"/>
+		            	    	<!-- Ref Cadastale ? -->
+		            	    </group>
+	            	    </page>
             		    <page string="Voirie">
             		        <group col="4" colspan="4">
 					           	<field name="revetment_type"/>
@@ -156,7 +163,7 @@
 			        		   <field name="sequence" required="1"/>
 			        		   <field name="date_order" required="1"/>
 			        		   <field name="date_end_order"/>
-			        		   <field name="patrimoine_id" domain="[('type_prod','=','patrimoine')]" required="1"/>
+			        		   <field name="patrimoine_id" domain="[('openstc_maintenance','=',True)]" required="1"/>
 		        		   	</group>
 							<group colspan="4" col="4" string="Intervenant">
 								<field name="internal_inter"/>

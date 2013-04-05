@@ -29,7 +29,7 @@ class product_product(osv.osv):
     
     def return_type_prod_values(self, cr, uid, context=None):
         ret = super(product_product, self).return_type_prod_values(cr, uid, context)
-        ret.extend([('patrimoine','Patrimoine')])
+        #ret.extend([('patrimoine','Patrimoine')])
         return ret
     
     _columns = {    
@@ -48,5 +48,4 @@ class product_product(osv.osv):
         return super(product_product, self).write(cr, uid, ids, vals, context=context)"""
     
 product_product()
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

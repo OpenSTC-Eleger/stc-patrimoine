@@ -61,7 +61,7 @@ class openstc_patrimoine_site(osv.osv):
         }
     
     _defaults = {
-        'type_prod':'patrimoine',
+        'type_prod':'site',
         'sale_ok':lambda *a:False,
         }
 
