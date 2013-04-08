@@ -32,7 +32,8 @@ class product_product(osv.osv):
         #ret.extend([('patrimoine','Patrimoine')])
         return ret
     
-    _columns = {    
+    _columns = {
+            'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'patrimoine_id', 'Contracts linked'),
         }
     
 """    def create(self, cr, uid, vals, context=None):

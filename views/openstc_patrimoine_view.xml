@@ -32,6 +32,17 @@
 	            	        <field name="time"/>
 	            	        <field name="immat"/>
 	            	    </page>
+	            	    <page string="Contracts">
+	            	        <field name="patrimoine_contract_ids" nolabel="1">
+	            	        	<tree string="Contracts">
+	            	        		<field name="sequence"/>
+	            	        		<field name="name"/>
+	            	        		<field name="supplier_id"/>
+	            	        		<field name="date_start_order"/>
+	            	        		<field name="date_end_order"/>
+	            	        	</tree>
+	            	        </field>
+	            	    </page>
 	            	</notebook>
             	</form>
             </field>
@@ -126,6 +137,17 @@
 					           	<field name="revetment_type"/>
 					           	<field name="luminaire_type"/>
 				           	</group>
+            		    </page>
+            		    <page string="Contracts">
+   	            	        <field name="patrimoine_contract_ids" nolabel="1">
+	            	        	<tree string="Contracts">
+	            	        		<field name="sequence"/>
+	            	        		<field name="name"/>
+	            	        		<field name="supplier_id"/>
+	            	        		<field name="date_start_order"/>
+	            	        		<field name="date_end_order"/>
+	            	        	</tree>
+	            	        </field>
             		    </page>
             		    
 	            	</notebook>
@@ -263,6 +285,31 @@
         		<form>
 					<field name="name"/>
 				</form>
+	    	</field>
+	    </record>
+	    
+	     <record id="openstc_patrimoine_users_form_inherit" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.users.form.inherit</field>
+            <field name="model">res.users</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+        		<page string="Access Rights" position="after">
+        		    <page string="Accreditation(s) and License(s)">
+	        		    <field name="openstc_accreditation_ids" nolabel="1">
+	        		        <tree editable="top" string="Accreditation(s)">
+	        		            <field name="accreditation_id"/>
+	        		            <field name="date_validity"/>
+	        		        </tree>
+	        		    </field>
+	        		    <field name="openstc_license_ids" nolabel="1">
+	        		        <tree editable="top" string="License(s)">
+	        		            <field name="license_id"/>
+	        		            <field name="date_validity"/>
+	        		        </tree>
+	        		    </field>
+        			</page>
+        		</page>
 	    	</field>
 	    </record>
 	</data>
