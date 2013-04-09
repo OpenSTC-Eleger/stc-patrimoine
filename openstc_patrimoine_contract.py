@@ -44,9 +44,9 @@ class openstc_patrimoine_contract(osv.osv):
         'technical_service_id':fields.many2one('openstc.service','Internal Service',help="Technical service that will work according to this contract"),
         #'type_intervention':fields.many2many('openstc.patrimoine.contract.intervention.type','openstc_patrimoine_contract_type_rel','contract_id','type_inter_id','Intervention type(s) contracted'),
         'contract_line':fields.one2many('openstc.patrimoine.contract.line', 'contract_id', 'Intervention Lines'),
-        'date_start_order':fields.datetime('Date Start Contract', help="Start Date of the application of the contract"),
-        'date_order':fields.datetime('Date order'),
-        'date_end_order':fields.datetime('Date end order',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.'),
+        'date_start_order':fields.date('Date Start Contract', help="Start Date of the application of the contract"),
+        'date_order':fields.date('Date order'),
+        'date_end_order':fields.date('Date end Contract',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True),
         #TODO:'intervention_ids':fields.one2many('')
         }
@@ -106,7 +106,7 @@ class openstc_patrimoine_contract(osv.osv):
     
     def create(self, cr, uid, vals, context=None):
         #self.compute_type_inter_values(cr, uid, vals, context)
-        res = super(openstc_patrimoine_contract, self).create(cr, uid, vals, context=None)
+        res = super(openstc_patrimoine_contract, self).create(cr, uid, vals, context=context)
         return res
     
     #Override to push contract dates modifications to recur date of each lines contract  
@@ -128,7 +128,7 @@ class openstc_patrimoine_contract(osv.osv):
                     vals['contract_line'].extend(values)
                 else:
                     vals['contract_line'] = values
-                    super(openstc_patrimoine_contract, self).write(cr, uid, [contract.id], vals, context=None)
+                super(openstc_patrimoine_contract, self).write(cr, uid, [contract.id], vals, context=None)
         else:
             super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=None)
         return True
@@ -172,12 +172,12 @@ class openstc_patrimoine_contract_line(osv.osv):
     _columns = {
         #'name':fields.char('Name',size=128),
         'contract_id':fields.many2one('openstc.patrimoine.contract', 'Contract linked'),
-        'start_recur':fields.datetime('Recurrence start date', help="Date of recurrence beginning"),
-        'end_recur':fields.datetime('Recurrence end date', help="Date of recurrence ending"),
+        'start_recur':fields.date('Recurrence start date', help="Date of recurrence beginning"),
+        'end_recur':fields.date('Recurrence end date', help="Date of recurrence ending"),
         #'last_inter':fields.datetime('Date last intervention', help="Planned date of the next intervention, you can change it as you want."),
-        'last_inter':fields.function(_get_next_inter, multi='recur', method=True, type='datetime',string='Date last intervention', help="Planned date of the next intervention, you can change it as you want."),
+        'last_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date',string='Date last intervention', help="Planned date of the next intervention, you can change it as you want."),
         #'next_inter':fields.datetime('Date next intervention', help="Date of the last intervention executed in this contract"),
-        'next_inter':fields.function(_get_next_inter, multi='recur', method=True, type='datetime', string='Date next intervention', help="Date of the last intervention executed in this contract"),
+        'next_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date', string='Date next intervention', help="Date of the last intervention executed in this contract"),
         'recurrence':fields.selection(_AVAILABLE_PERIOD_VALUES, 'Recurrence'),
         'recurrence_weight':fields.integer('Each'),
         'type_inter':fields.many2one('openstc.patrimoine.contract.intervention.type','Intervention Type'),
@@ -287,14 +287,6 @@ class openstc_patrimoine_contract_line(osv.osv):
             self.write(cr, uid, [contract.id], {'occurrence_line':values}, context=context)        
         return True
     
-    def onchange_type_inter(self, cr, uid, ids, type_inter=False, date_start_order=False, date_end_order=False):
-        values = {}
-        if date_start_order:
-            values.update({'start_recur':date_start_order})
-        if date_end_order:
-            values.update({'end_recur':date_end_order})
-        return {'value':values}
-    
     def create(self, cr, uid, vals, context=None):
         ret = super(openstc_patrimoine_contract_line, self).create(cr, uid, vals, context=None)
         #self.update_view_inter_type(cr, uid, context)
@@ -322,7 +314,7 @@ class openstc_patrimoine_contract_occurrence(osv.osv):
     
     _name = 'openstc.patrimoine.contract.occurrence'
     _columns = {
-        'date_order':fields.datetime('Date Order', required=True),
+        'date_order':fields.date('Date Order', required=True),
         'state':fields.selection(_get_func_state_values, 'State', readonly=True),
         'contract_line_id':fields.many2one('openstc.patrimoine.contract.line', 'Line Contract linked'),
         'observation':fields.text('Observations'),

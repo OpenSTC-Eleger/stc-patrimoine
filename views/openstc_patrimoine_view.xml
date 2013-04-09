@@ -195,7 +195,7 @@
 									<field name="technical_service_id" attrs="{'invisible':[('internal_inter','=',False)]}"/>
 							   </group>
 								<newline/>
-								<field name="contract_line" nolabel="1" colspan="4">
+								<field name="contract_line" nolabel="1" colspan="4" context="{'default_start_recur':date_start_order,'default_end_recur':date_end_order}">
 									<tree string="Intervention(s) Contracted">
 									    <field name="type_inter"/>
 									    <field name="next_inter"/>
@@ -233,7 +233,7 @@
             <field name="arch" type="xml">
                 <form string="Intervention(s) Contracted">
                     <group colspan="2" col="2">
-                    	<field name="type_inter" required="1" on_change="onchange_type_inter(type_inter,parent.date_start_order, parent.date_end_order)"/>
+                    	<field name="type_inter" required="1"/>
                         <field name="start_recur" required="1"/>
 	                    <field name="end_recur" required="1"/>
 	                    <group colspan="2" col="3">
