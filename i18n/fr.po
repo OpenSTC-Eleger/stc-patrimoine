@@ -1,0 +1,615 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* openstc_patrimoine
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-06 08:43+0000\n"
+"PO-Revision-Date: 2013-05-06 08:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,security_com:0
+msgid "Comission Sécurité"
+msgstr "Comission Sécurité"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract,date_end_order:0
+msgid "Date of the end of this contract. When ended, you could extend it's duration or create a new contract."
+msgstr "Date de fin de contrat. Vous pouvez ralonger cette durée ou créer un autre contrat une fois celui-ci expiré."
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract.line,start_recur:0
+msgid "Date of recurrence beginning"
+msgstr "Date de début de la récurrence"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_users_license
+msgid "openstc.users.license"
+msgstr "openstc.users.license"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_equipment
+msgid "openstc.equipment"
+msgstr "openstc.equipment"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,erp_classification:0
+msgid "Classement ERP"
+msgstr "Classement ERP"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,supplier_id:0
+msgid "Supplier"
+msgstr "Fournisseur"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract:0
+msgid "Compute recurrence"
+msgstr "Calculer la récurrence"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract.line:0
+#: field:openstc.patrimoine.contract.line,occurrence_line:0
+msgid "Occurrence(s)"
+msgstr "Occurrence(s)"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.site,mh_ismh_classification:0
+msgid "ISMH"
+msgstr "ISMH"
+
+#. module: openstc_patrimoine
+#: model:ir.actions.act_window,name:openstc_patrimoine.action_openstc_patrimoine_contract_inter_type_form
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract_inter_type_action_view_all
+msgid "Intevention types"
+msgstr "Types d'intervention"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract.line,recurrence:0
+msgid "Day"
+msgstr "Jour"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,technical_service_id:0
+msgid "Internal Service"
+msgstr "Service interne"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,date_order:0
+msgid "Date order"
+msgstr "Date de création"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.accreditation,code:0
+#: field:openstc.users.license,code:0
+msgid "Code"
+msgstr "Code"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.accreditation.rel,date_validity:0
+#: field:openstc.users.license.rel,date_validity:0
+msgid "Validity Date"
+msgstr "Date de validité"
+
+#. module: openstc_patrimoine
+#: field:product.product,patrimoine_contract_ids:0
+msgid "Contracts linked"
+msgstr "Contrats liés"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.site:0
+msgid "Voirie"
+msgstr "Voirie"
+
+#. module: openstc_patrimoine
+#: view:res.users:0
+msgid "Access Rights"
+msgstr "Droits d'accès"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,start_recur:0
+msgid "Recurrence start date"
+msgstr "Date de début de la récurrence"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.site,sdo:0
+msgid "SDO = Surface Dans Oeuvre"
+msgstr "SDO = Surface Dans Oeuvre"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.site:0
+msgid "Terrain"
+msgstr "Terrain"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,mh_ismh_classification:0
+msgid "Classement MH/ISMH"
+msgstr "Classement MH/ISMH"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,frequentation_max:0
+msgid "Féquentation Maximale"
+msgstr "Féquentation Maximale"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract,technical_service_id:0
+msgid "Technical service that will work according to this contract"
+msgstr "Service technique interne qui effectuera les interventions de ce contrat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,build_surface:0
+msgid "Surface Bâti(m²)"
+msgstr "Surface Bâti(m²)"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,service_site_id:0
+msgid "Service Responsable"
+msgstr "Service Responsable"
+
+#. module: openstc_patrimoine
+#: code:addons/openstc_patrimoine/openstc_patrimoine_contract.py:207
+#: code:addons/openstc_patrimoine/openstc_patrimoine_contract.py:355
+#: code:addons/openstc_patrimoine/openstc_patrimoine_contract.py:365
+#, python-format
+msgid "Intervention Type(s) contracted"
+msgstr "Type(s) d'intervention contracté(s)"
+
+#. module: openstc_patrimoine
+#: constraint:res.users:0
+msgid "The chosen company is not in the allowed companies for this user"
+msgstr "La société choisie n'est pas autorisée pour cet utilisateur."
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract.line,next_inter:0
+msgid "Date of the last intervention executed in this contract"
+msgstr "Date de la dernière intervention faite dans le cadre de ce contrat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,contract_line:0
+msgid "Intervention Lines"
+msgstr "Lignes d'intervention"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract_occurrence
+msgid "openstc.patrimoine.contract.occurrence"
+msgstr "openstc.patrimoine.contract.occurrence"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.accreditation.rel,accreditation_id:0
+msgid "Accreditation"
+msgstr "Habilitations"
+
+#. module: openstc_patrimoine
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_menu_configuration
+msgid "patrimoine"
+msgstr "patrimoine"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,state:0
+#: field:openstc.patrimoine.contract.occurrence,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,surface:0
+msgid "Surface"
+msgstr "Surface"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,luminaire_type:0
+msgid "Type de luminaire"
+msgstr "Type de luminaire"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract:0
+msgid "General Infos"
+msgstr "Infos Générales"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract:0
+#: view:openstc.patrimoine.contract.line:0
+msgid "Intervention(s) Contracted"
+msgstr "Intervention(s) contractée(s)"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,built_year:0
+msgid "Année de construction"
+msgstr "Année de construction"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_users_accreditation
+msgid "openstc.users.accreditation"
+msgstr "openstc.users.accreditation"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract_intervention_type
+msgid "openstc.patrimoine.contract.intervention.type"
+msgstr "openstc.patrimoine.contract.intervention.type"
+
+#. module: openstc_patrimoine
+#: view:res.users:0
+msgid "Accreditation(s) and License(s)"
+msgstr "Habilitation(s) et License(s)"
+
+#. module: openstc_patrimoine
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_config
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,effectif_personnel:0
+msgid "Effectif personnel"
+msgstr "Effectif personnel"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract.line,last_inter:0
+msgid "Planned date of the next intervention, you can change it as you want."
+msgstr "Date de prochaine intervention prévue, vous pouvez librement la changer."
+
+#. module: openstc_patrimoine
+#: field:openstc.equipment,length_amort:0
+msgid "Durée d'amortissement"
+msgstr "Durée d'amortissement"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,recurrence_weight:0
+msgid "Each"
+msgstr "Chaque"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_site
+msgid "openstc.patrimoine.site"
+msgstr "openstc.patrimoine.site"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,contract_id:0
+msgid "Contract linked"
+msgstr "Contrat lié"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.site,mh_ismh_classification:0
+msgid "MH"
+msgstr "MH"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract.line,recurrence:0
+msgid "Month"
+msgstr "Mois"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_users_accreditation_rel
+msgid "openstc.users.accreditation.rel"
+msgstr "openstc.users.accreditation.rel"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.site:0
+msgid "Bâtiment"
+msgstr "Bâtiment"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.accreditation.rel,user_id:0
+#: field:openstc.users.license.rel,user_id:0
+msgid "Owner"
+msgstr "Titulaire"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,time_openning:0
+msgid "Horaires d'ouverture"
+msgstr "Horaires d'ouverture"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract
+msgid "openstc.patrimoine.contract"
+msgstr "openstc.patrimoine.contract"
+
+#. module: openstc_patrimoine
+#: view:res.users:0
+#: field:res.users,openstc_accreditation_ids:0
+msgid "Accreditation(s)"
+msgstr "Habilitation(s)"
+
+#. module: openstc_patrimoine
+#: field:openstc.equipment,manager_id:0
+#: field:openstc.patrimoine.site,manager_id:0
+msgid "Responsable"
+msgstr "Responsable"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract.line,recurrence:0
+msgid "Week"
+msgstr "Semaine"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,lenght:0
+msgid "Longueur"
+msgstr "Longueur"
+
+#. module: openstc_patrimoine
+#: model:ir.actions.act_window,name:openstc_patrimoine.action_openstc_patrimoine_contract_view_all
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract_action_view_all
+#: view:openstc.equipment:0
+#: view:openstc.patrimoine.site:0
+msgid "Contracts"
+msgstr "Contrats"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,width:0
+msgid "Largeur"
+msgstr "Largeur"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,build_type:0
+msgid "Type de construction"
+msgstr "Type de construction"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,last_inter:0
+msgid "Date last intervention"
+msgstr "Date de dernière intervention"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,floor_nature:0
+msgid "Nature des sols"
+msgstr "Nature des sols"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,date_start_order:0
+msgid "Date Start Contract"
+msgstr "Date de début du contrat"
+
+#. module: openstc_patrimoine
+#: field:openstc.equipment,purchase_price:0
+msgid "Prix d'achat"
+msgstr "Prix d'achat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,site_id:0
+msgid "Site associé"
+msgstr "Site associé"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,end_recur:0
+msgid "Recurrence end date"
+msgstr "Date de fin de récurrence"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract:0
+msgid "Accept contract"
+msgstr "Accepter le contrat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,patrimoine_id:0
+msgid "patrimony associated"
+msgstr "Patrimoine concerné"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_users_license_rel
+msgid "openstc.users.license.rel"
+msgstr "openstc.users.license.rel"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.occurrence,contract_line_id:0
+msgid "Line Contract linked"
+msgstr "Ligne de contrat liée"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.occurrence,date_order:0
+msgid "Date Order"
+msgstr "Date de création"
+
+#. module: openstc_patrimoine
+#: sql_constraint:res.users:0
+msgid "You can not have two users with the same login !"
+msgstr "VOus ne pouvez pas avoir deux utilsiateurs avec le même login !"
+
+#. module: openstc_patrimoine
+#: view:openstc.equipment:0
+#: view:openstc.patrimoine.contract:0
+msgid "General"
+msgstr "Géneral"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract,state:0
+msgid "Done"
+msgstr "Terminé"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,frequentation_an:0
+msgid "Fréquentation par an"
+msgstr "Fréquentation par an"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_res_users
+msgid "res.users"
+msgstr "res.users"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,date_end_order:0
+msgid "Date end Contract"
+msgstr "Date de fin de contrat"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,wall_revetment:0
+msgid "Revêtement mural"
+msgstr "Revêtement mural"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,type_inter:0
+msgid "Intervention Type"
+msgstr "Type d'intervention"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract.line,end_recur:0
+msgid "Date of recurrence ending"
+msgstr "Date de fin de récurrence"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract,state:0
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: openstc_patrimoine
+#: model:ir.actions.act_window,name:openstc_patrimoine.action_openstc_patrimoine_site_form
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_site_form_menu
+msgid "Sites"
+msgstr "Sites"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,recurrence:0
+msgid "Recurrence"
+msgstr "Récurrence"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.occurrence,observation:0
+msgid "Observations"
+msgstr "Observations"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,internal_inter:0
+msgid "En régie"
+msgstr "En régie"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,product_id:0
+msgid "Produit Associé"
+msgstr "Produit Associé"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.contract,date_start_order:0
+msgid "Start Date of the application of the contract"
+msgstr "Date de début d'application du contrat"
+
+#. module: openstc_patrimoine
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract
+msgid "Gestion Contrats"
+msgstr "Gestion Contrats"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_product_product
+msgid "Product"
+msgstr "Produit"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract.line,next_inter:0
+msgid "Date next intervention"
+msgstr "Date de prochaine intervention"
+
+#. module: openstc_patrimoine
+#: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract_line
+msgid "openstc.patrimoine.contract.line"
+msgstr "openstc.patrimoine.contract.line"
+
+#. module: openstc_patrimoine
+#: view:openstc.equipment:0
+msgid "Vehicule"
+msgstr "Véhicule"
+
+#. module: openstc_patrimoine
+#: model:ir.actions.act_window,name:openstc_patrimoine.action_openstc_patrimoine_equipment_form
+#: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_equipment_form_menu
+msgid "Equipments"
+msgstr "Equipments"
+
+#. module: openstc_patrimoine
+#: view:res.users:0
+#: field:res.users,openstc_license_ids:0
+msgid "License(s)"
+msgstr "License(s)"
+
+#. module: openstc_patrimoine
+#: help:openstc.patrimoine.site,shon:0
+msgid "SHON = Surface Hors Oeuvre Nette"
+msgstr "SHON = Surface Hors Oeuvre Nette"
+
+#. module: openstc_patrimoine
+#: field:openstc.equipment,energy_type:0
+msgid "Type d'énergie"
+msgstr "Type d'énergie"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,name:0
+#: field:openstc.patrimoine.contract.intervention.type,name:0
+#: field:openstc.users.accreditation,name:0
+#: field:openstc.users.license,name:0
+msgid "Name"
+msgstr "Nom"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.license.rel,license_id:0
+msgid "License"
+msgstr "License"
+
+#. module: openstc_patrimoine
+#: field:openstc.users.accreditation,validity_length_year:0
+#: field:openstc.users.license,validity_length_year:0
+msgid "Year(s) of length validity"
+msgstr "Année(s) de validité"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.contract:0
+msgid "Intervenant"
+msgstr "Intervenant"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.site:0
+msgid "Infos Techniques"
+msgstr "Infos Techniques"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,shon:0
+msgid "SHON"
+msgstr "SHON"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,site_parent_id:0
+msgid "Site Parent"
+msgstr "Site Parent"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.contract,sequence:0
+msgid "Sequence"
+msgstr "Sequence"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,revetment_type:0
+msgid "Type de revêtement"
+msgstr "Type de revêtement"
+
+#. module: openstc_patrimoine
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Erreur: code EAN invalide"
+
+#. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract.line,recurrence:0
+msgid "Year"
+msgstr "Année"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,sdo:0
+msgid "SDO"
+msgstr "SDO"
+
+#. module: openstc_patrimoine
+#: view:openstc.patrimoine.site:0
+msgid "Infos Générales"
+msgstr "Infos Générales"
+
+#. module: openstc_patrimoine
+#: field:openstc.patrimoine.site,floor_nb:0
+msgid "Nombre de niveaux"
+msgstr "Nombre de niveaux"
+
