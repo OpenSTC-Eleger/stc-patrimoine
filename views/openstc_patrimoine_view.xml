@@ -186,7 +186,7 @@
 			        		   <field name="date_order" invisible = "1" required="1"/>
 			        		   <field name="date_start_order" required="1"/>
 			        		   <field name="date_end_order" required="1"/>
-			        		   <field name="patrimoine_id" domain="[('openstc_maintenance','=',True)]" required="1"/>
+			        		   <field name="patrimoine_id" context="{'default_openstc_maintenance':True}" domain="[('openstc_maintenance','=',True)]" required="1"/>
 		        		   	</group>
 							<group colspan="4" col="4" string="Intervenant">
 								<field name="internal_inter"/>
