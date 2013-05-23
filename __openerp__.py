@@ -8,7 +8,7 @@
 {
     "name": "openstc_patrimoine",
     "version": "0.1",
-    "depends": ["openstc_prets",],
+    "depends": ["openstc",],
     "author": "BP",
     "category": "Category",
     "description": """

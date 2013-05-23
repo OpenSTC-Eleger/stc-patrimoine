@@ -237,7 +237,7 @@ msgstr "openstc.patrimoine.contract.intervention.type"
 #. module: openstc_patrimoine
 #: view:res.users:0
 msgid "Accreditation(s) and License(s)"
-msgstr "Habilitation(s) et License(s)"
+msgstr "Habilitation(s) et Permis"
 
 #. module: openstc_patrimoine
 #: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_config
@@ -527,7 +527,7 @@ msgstr "Equipments"
 #: view:res.users:0
 #: field:res.users,openstc_license_ids:0
 msgid "License(s)"
-msgstr "License(s)"
+msgstr "Permis"
 
 #. module: openstc_patrimoine
 #: help:openstc.patrimoine.site,shon:0
@@ -550,7 +550,7 @@ msgstr "Nom"
 #. module: openstc_patrimoine
 #: field:openstc.users.license.rel,license_id:0
 msgid "License"
-msgstr "License"
+msgstr "Permis"
 
 #. module: openstc_patrimoine
 #: field:openstc.users.accreditation,validity_length_year:0
