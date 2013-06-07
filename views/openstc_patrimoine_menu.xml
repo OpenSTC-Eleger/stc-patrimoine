@@ -47,7 +47,7 @@
 				
 		
 		
-	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openstc.menu_configuration" sequence="1"
+	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openstc_patrimoine_config" sequence="1"
 	        name="patrimoine"/>
 	    
 	    <menuitem id="openstc_patrimoine_equipment_form_menu" parent="openstc_patrimoine_menu_configuration"
