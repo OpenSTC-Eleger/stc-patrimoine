@@ -34,6 +34,8 @@ class product_product(osv.osv):
     
     _columns = {
             'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'patrimoine_id', 'Contracts linked'),
+            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','patrimoine_id', string="Incoming internal interventions"),
+
         }
     
 """    def create(self, cr, uid, vals, context=None):

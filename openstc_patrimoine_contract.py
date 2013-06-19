@@ -195,6 +195,7 @@ class openstc_patrimoine_contract_line(osv.osv):
         'type_inter':fields.many2one('openstc.patrimoine.contract.intervention.type','Intervention Type'),
         'occurrence_line':fields.one2many('openstc.patrimoine.contract.occurrence', 'contract_line_id', 'Occurrence(s)'),
         'technical_service_id':fields.related('contract_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
+        'patrimoine_id':fields.related('contract_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
         }
 
     _defaults = {
@@ -330,9 +331,12 @@ class openstc_patrimoine_contract_occurrence(osv.osv):
     _name = 'openstc.patrimoine.contract.occurrence'
     _columns = {
         'date_order':fields.date('Date Order', required=True),
-        'state':fields.selection(_get_func_state_values, 'State', readonly=True),
+        'state':fields.selection(_get_func_state_values, 'State'),
         'contract_line_id':fields.many2one('openstc.patrimoine.contract.line', 'Line Contract linked'),
         'observation':fields.text('Observations'),
+        'technical_service_id':fields.related('contract_line_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
+        'patrimoine_id':fields.related('contract_line_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
+        'type_inter':fields.related('contract_line_id','type_inter', type="many2one", relation='openstc.patrimoine.contract.intervention.type', string="Type Inter", store=True)
         }
     _defaults = {
         'state':lambda *a: 'draft',

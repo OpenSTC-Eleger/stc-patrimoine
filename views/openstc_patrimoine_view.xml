@@ -32,6 +32,16 @@
 	            	        <field name="time"/>
 	            	        <field name="immat"/>
 	            	    </page>
+	            	    <page string="Incoming internal interventions">
+            		        <field name="occurrences_contract_ids" nolabel="1">
+            		            <tree>
+            		                <field name="date_order"/>
+            		                <field name="technical_service_id"/>
+            		                <field name="type_inter"/>
+            		                <field name="observation"/>
+            		            </tree>
+            		        </field>
+            		    </page>
 	            	    <page string="Contracts">
 	            	        <field name="patrimoine_contract_ids" nolabel="1">
 	            	        	<tree string="Contracts">
@@ -137,6 +147,16 @@
 					           	<field name="revetment_type"/>
 					           	<field name="luminaire_type"/>
 				           	</group>
+            		    </page>
+            		    <page string="Incoming internal interventions">
+            		        <field name="occurrences_contract_ids" nolabel="1">
+            		            <tree>
+            		                <field name="date_order"/>
+            		                <field name="technical_service_id"/>
+            		                <field name="type_inter"/>
+            		                <field name="observation"/>
+            		            </tree>
+            		        </field>
             		    </page>
             		    <page string="Contracts">
    	            	        <field name="patrimoine_contract_ids" nolabel="1">
@@ -263,7 +283,36 @@
                 </form>
             </field>
         </record>
-	    
+        
+        <record id="openstc_patrimoine_contract_occurrence_tree" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.occurrence.tree</field>
+            <field name="model">openstc.patrimoine.contract.occurrence</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+				    <field name="date_order"/>
+				    <field name="technical_service_id"/>
+				    <field name="patrimoine_id"/>
+				    <field name="type_inter"/>
+				    <field name="observation"/>
+				    <field name="state"/>
+			    </tree>
+			</field>
+		</record>
+		
+	    <record id="openstc_patrimoine_contract_occurrence_form" model="ir.ui.view">
+	        <field name="name">openstc.patrimoine.contract.occurrence.form</field>
+            <field name="model">openstc.patrimoine.contract.occurrence</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+				    <field name="date_order"/>
+				    <field name="type_inter"/>
+				    <field name="observation" colspan="4"/>
+				    <field name="state"/>
+			    </form>
+			</field>
+		</record>
 	    
 <!-- 	     <record id="openstc_patrimoine_contract_form_inherit_type" model="ir.ui.view"> -->
 <!-- 	        <field name="name">openstc.patrimoine.contract.inherit.type</field> -->

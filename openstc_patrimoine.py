@@ -57,7 +57,6 @@ class openstc_patrimoine_site(osv.osv):
         'security_com':fields.char('Comission Sécurité', size=64),
         'floor_nature':fields.text('Nature des sols'),
         'wall_revetment':fields.text('Revêtement mural'),
-        
         }
     
     _defaults = {
@@ -78,7 +77,7 @@ class equipment(osv.osv):
         'energy_type':fields.char('Type d\'énergie',size=128),
         'length_amort':fields.integer('Durée d\'amortissement'),
         'purchase_price':fields.float('Prix d\'achat',digits=(6,2)),
-        
+
         }
 
     _defaults = {

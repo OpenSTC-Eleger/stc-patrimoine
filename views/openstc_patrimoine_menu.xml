@@ -36,10 +36,52 @@
             <field name="view_mode">tree,form</field>
 		</record>
 		
+		
+		<record id="openstc_patrimoine_contract_line_view_search" model="ir.ui.view">
+   	        <field name="name">openstc.patrimoine.contract.line.search</field>
+            <field name="model">openstc.patrimoine.contract.line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+				<search>
+				    <field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
+				</search>
+            </field>
+		</record>
+		
+		<record id="action_openstc_patrimoine_contract_line_view_all" model="ir.actions.act_window">
+            <field name="name">Incoming interventions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.patrimoine.contract.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="openstc_patrimoine_contract_line_view_search"/>
+		</record>
+		
+		<record id="openstc_patrimoine_contract_occurrence_view_search" model="ir.ui.view">
+   	        <field name="name">openstc.patrimoine.contract.occurrence.search</field>
+            <field name="model">openstc.patrimoine.contract.occurrence</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+				<search>
+				    <field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
+				</search>
+            </field>
+		</record>
+		
+		<record id="action_openstc_patrimoine_contract_occurrence_view_all" model="ir.actions.act_window">
+            <field name="name">Incoming interventions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">openstc.patrimoine.contract.occurrence</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="openstc_patrimoine_contract_occurrence_view_search"/>
+		</record>
+		
 		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="10" name="Gestion Patrimoine"/>
 		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion Contrats" parent="base.openstc_patrimoine_main_menu"/>
 		<menuitem id="openstc_patrimoine_contract_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_view_all"
 		    parent="openstc_patrimoine_contract"/>
+		<menuitem id="openstc_patrimoine_contract_line_action_view_all" sequence="2" action="action_openstc_patrimoine_contract_occurrence_view_all" parent="openstc_patrimoine_contract"/>
 		
 		<menuitem id="openstc_patrimoine_config" sequence="2" name="Configuration" parent="base.openstc_patrimoine_main_menu"/>
 		<menuitem id="openstc_patrimoine_contract_inter_type_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_inter_type_form"
