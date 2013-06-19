@@ -169,19 +169,32 @@ class openstc_patrimoine_contract_line(osv.osv):
             ret[line.id] = {'next_inter':next_inter, 'last_inter':last_inter}
         return ret
     
+    def _get_line_from_occur(self, cr, uid, ids, context=None):
+        occ = self.pool.get("openstc.patrimoine.contract.occurrence").browse(cr, uid, ids, context=context)
+        ret = []
+        for item in occ:
+            if item.contract_line_id.id not in ret:
+                ret.append(item.contract_line_id.id)
+        return ret
+    
     _columns = {
         #'name':fields.char('Name',size=128),
         'contract_id':fields.many2one('openstc.patrimoine.contract', 'Contract linked'),
         'start_recur':fields.date('Recurrence start date', help="Date of recurrence beginning"),
         'end_recur':fields.date('Recurrence end date', help="Date of recurrence ending"),
         #'last_inter':fields.datetime('Date last intervention', help="Planned date of the next intervention, you can change it as you want."),
-        'last_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date',string='Date last intervention', help="Planned date of the next intervention, you can change it as you want."),
+        'last_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date',string='Date last intervention', help="Planned date of the next intervention, you can change it as you want.",
+                                     store={'openstc.patrimoine.contract.occurrence':(_get_line_from_occur, ['date_order','state'], 10),
+                                            'openstc.patrimoine.contract.line':(lambda self,cr,uid,ids,ctx={}:ids,['occurence_line'],11)}),
         #'next_inter':fields.datetime('Date next intervention', help="Date of the last intervention executed in this contract"),
-        'next_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date', string='Date next intervention', help="Date of the last intervention executed in this contract"),
+        'next_inter':fields.function(_get_next_inter, multi='recur', method=True, type='date', string='Date next intervention', help="Date of the last intervention executed in this contract",
+                                     store={'openstc.patrimoine.contract.occurrence':(_get_line_from_occur, ['date_order','state'], 10),
+                                            'openstc.patrimoine.contract.line':(lambda self,cr,uid,ids,ctx={}:ids,['occurence_line'],11)}),
         'recurrence':fields.selection(_AVAILABLE_PERIOD_VALUES, 'Recurrence'),
         'recurrence_weight':fields.integer('Each'),
         'type_inter':fields.many2one('openstc.patrimoine.contract.intervention.type','Intervention Type'),
         'occurrence_line':fields.one2many('openstc.patrimoine.contract.occurrence', 'contract_line_id', 'Occurrence(s)'),
+        'technical_service_id':fields.related('contract_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
         }
 
     _defaults = {
@@ -189,6 +202,8 @@ class openstc_patrimoine_contract_line(osv.osv):
         'recurrence':'year',
         
         }
+    
+    _order = "next_inter,technical_service_id"
 
     def parse_datas(self, cr, uid, context=None):
         ret = []
