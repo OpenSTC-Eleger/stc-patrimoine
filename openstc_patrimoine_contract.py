@@ -322,16 +322,13 @@ openstc_patrimoine_contract_line()
 
 class openstc_patrimoine_contract_occurrence(osv.osv):
     
-    def get_state_values(self, cr, uid, context=None):
-        return [('draft','Draft'),('done','Done'),('alert','Alert'),('cancel','Cancel'),('in_progress','In Progress')]
-    
-    def _get_func_state_values(self, cr, uid, context=None):
-        return self.get_state_values(cr, uid, context=context)
+    STATE_AVAIL_VALUES = [('draft','Draft'),('done','Done'),('cancel','Cancel')]
+
     
     _name = 'openstc.patrimoine.contract.occurrence'
     _columns = {
         'date_order':fields.date('Date Order', required=True),
-        'state':fields.selection(_get_func_state_values, 'State'),
+        'state':fields.selection(STATE_AVAIL_VALUES, 'State'),
         'contract_line_id':fields.many2one('openstc.patrimoine.contract.line', 'Line Contract linked'),
         'observation':fields.text('Observations'),
         'technical_service_id':fields.related('contract_line_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
