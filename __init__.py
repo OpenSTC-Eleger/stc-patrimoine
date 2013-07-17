@@ -22,7 +22,7 @@
 ##############################################################################
 
 import product
-import openstc_patrimoine
+#import openstc_patrimoine
 import openstc_patrimoine_contract
 import users
 

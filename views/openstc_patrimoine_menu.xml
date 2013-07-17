@@ -15,7 +15,7 @@
 		<record id="action_openstc_patrimoine_site_form" model="ir.actions.act_window">
             <field name="name">Sites</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">openstc.patrimoine.site</field>
+            <field name="res_model">openstc.site</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
 		</record>
@@ -69,7 +69,10 @@
 					<newline/>
 					<group expand="1" string="Group By">
 						<filter name="group_inter_type" string="Group by Object" context="{'group_by':'type_inter'}"/>
-						<filter name="group_patrimoine_id" string="Group by Patrimony" context="{'group_by':'patrimoine_id'}"/>
+ 						<filter name="group_is_equipment" string="Group by Patrimony" context="{'group_by':'patrimoine_name'}"/>
+<!-- 						<filter name="group_equipment" string="Group by Equipment" context="{'group_by':'equipment_id'}"/> -->
+<!-- 						<filter name="group_site" string="Group by Site" context="{'group_by':'site_id'}"/> -->
+						
 					</group>
 				</search>
             </field>

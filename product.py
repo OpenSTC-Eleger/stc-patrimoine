@@ -23,32 +23,26 @@
 
 from osv import fields,osv
 
-class product_product(osv.osv):
-    _inherit = "product.product"
-    _name = "product.product"
-    
-    def return_type_prod_values(self, cr, uid, context=None):
-        ret = super(product_product, self).return_type_prod_values(cr, uid, context)
-        #ret.extend([('patrimoine','Patrimoine')])
-        return ret
+class openstc_equipement(osv.osv):
+    _inherit = "openstc.equipment"
+
     
     _columns = {
-            'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'patrimoine_id', 'Contracts linked'),
-            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','patrimoine_id', string="Incoming internal interventions"),
+            'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'equipment_id', 'Contracts linked'),
+            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','equipment_id', string="Incoming internal interventions"),
 
         }
+openstc_equipement()
+
+class openstc_site(osv.osv):
+    _inherit = "openstc.site"
+
     
-"""    def create(self, cr, uid, vals, context=None):
-        if context:
-            if 'name_prod' in context:
-                vals.update({'name':context['name_prod']})
-        return super(product_product, self).create(cr, uid, vals, context=context)
-    
-    def write(self, cr, uid, ids, vals, context=None):
-        if context:
-            if 'name_prod' in context:
-                vals.update({'name':context['name_prod']})
-        return super(product_product, self).write(cr, uid, ids, vals, context=context)"""
-    
-product_product()
+    _columns = {
+            'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'site_id', 'Contracts linked'),
+            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','site_id', string="Incoming internal interventions"),
+
+        }
+openstc_equipement()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

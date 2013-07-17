@@ -14,7 +14,6 @@
 		            	        <field name="name"/>
 					           	<field name="categ_id"/>
 					           	<field name="service"/>
-					           	<field name="manager_id"/>
 		            	        <field name="marque"/>
 		            	        <field name="year"/>
 		            	        <field name="purchase_price"/>
@@ -68,88 +67,20 @@
         		   <field name="name"/>
         		   <field name="service"/>
         		   <field name="marque"/>
-        		   <field name="manager_id"/>
         		   <field name="qty_available"/>
         		</tree>
         	</field>
 	    </record>
+
 	    
-	    <record id="openstc_patrimoine_site_tree" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.site.tree</field>
-            <field name="model">openstc.patrimoine.site</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-        		<tree>
-        		   <field name="name"/>
-        		   <field name="service_site_id"/>
-        		   <field name="manager_id"/>
-        		   <field name="categ_id"/>
-        		   <field name="site_parent_id"/>
-        		</tree>
-        	</field>
-	    </record>
-	    
-	    <record id="openstc_patrimoine_site_form" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.site.form</field>
-            <field name="model">openstc.patrimoine.site</field>
+		<record id="openstc_patrimoine_site_form" model="ir.ui.view">
+	        <field name="name">openstc.site.form.inherit.patrimoine</field>
+            <field name="model">openstc.site</field>
             <field name="type">form</field>
+            <field name="inherit_id" ref="openbase.view_openstc_site_form"/>
             <field name="arch" type="xml">
-            	<form>
-            	    <field name="product_image" widget="image" nolabel="1"/>
-            	    <group col="4" colspan="3">
-	           	        <field name="name"/> <!-- product.product -->
-			           	<field name="categ_id"/> <!-- product.product -->
-			           	<field name="service_site_id"/>
-			           	<field name="site_parent_id"/>
-			           	<field name="openstc_reservable"/>
-			           	<field name="openstc_maintenance"/>
-		           	</group>
-	            	<notebook colspan="4">
-	            	    <page string="Bâtiment">
-            		    	<group col="4" colspan="4">
-	            		    	<group string="Infos Générales" colspan="4" col="6">
-	            		    	    <field name="manager_id"/>
-	            		    	    <field name="sdo"/>
-		            		    	<field name="shon"/>
-		            		    	<field name="effectif_personnel"/>
-		            		    	<field name="time_openning"/>
-		            		    	<group col="2" colspan="2">
-		            		    	    <field name="frequentation_an"/>
-		            		    		<field name="frequentation_max"/>
-		            		    	</group>
-		            		    </group>
-	            		    	<group colspan="4" col="6" string="Infos Techniques">
-		            		    	<field name="surface"/>
-		            		    	<field name="floor_nb"/>
-		            		    	<field name="built_year"/>
-		            		    	<field name="mh_ismh_classification"/>
-		            		    	<field name="erp_classification"/>
-		            		    	<field name="security_com"/>
-		            		    	<field name="build_type"/>
-		            		    	<field name="luminaire_type"/>
-		            		    	<newline/>
-		            		    	<field name="floor_nature"/>
-		            		    	<field name="wall_revetment"/>
-	            		    	</group>
-							</group>            		    	
-            		    </page>
-            		    <page string="Terrain">
-	            	    	<group col="4" colspan="4">
-	            	    	    <field name="manager_id"/>
-		            	    	<field name="surface"/>
-		            	    	<field name="lenght"/>
-		            	    	<field name="width"/>
-		            	    	<field name="build_surface"/>
-		            	    	<!-- Ref Cadastale ? -->
-		            	    </group>
-	            	    </page>
-            		    <page string="Voirie">
-            		        <group col="4" colspan="4">
-					           	<field name="revetment_type"/>
-					           	<field name="luminaire_type"/>
-				           	</group>
-            		    </page>
-            		    <page string="Incoming internal interventions">
+        		<page string="General" position="after">
+        		    <page string="Incoming internal interventions">
             		        <field name="occurrences_contract_ids" nolabel="1">
             		            <tree colors="grey:state=='done';red:state=='cancel'">
             		                <field name="date_order"/>
@@ -172,11 +103,98 @@
 	            	        	</tree>
 	            	        </field>
             		    </page>
-            		    
-	            	</notebook>
-            	</form>
-            </field>
+        		</page>
+        	</field>
 	    </record>
+	    
+<!-- 	    <record id="openstc_patrimoine_site_form" model="ir.ui.view"> -->
+<!-- 	        <field name="name">openstc.patrimoine.site.form</field> -->
+<!--             <field name="model">openstc.patrimoine.site</field> -->
+<!--             <field name="type">form</field> -->
+<!--             <field name="arch" type="xml"> -->
+<!--             	<form> -->
+<!--             	    <field name="product_image" widget="image" nolabel="1"/> -->
+<!--             	    <group col="4" colspan="3"> -->
+<!-- 	           	        <field name="name"/> product.product -->
+<!-- 			           	<field name="categ_id"/> product.product -->
+<!-- 			           	<field name="service_site_id"/> -->
+<!-- 			           	<field name="site_parent_id"/> -->
+<!-- 			           	<field name="openstc_reservable"/> -->
+<!-- 			           	<field name="openstc_maintenance"/> -->
+<!-- 		           	</group> -->
+<!-- 	            	<notebook colspan="4"> -->
+<!-- 	            	    <page string="Bâtiment"> -->
+<!--             		    	<group col="4" colspan="4"> -->
+<!-- 	            		    	<group string="Infos Générales" colspan="4" col="6"> -->
+<!-- 	            		    	    <field name="manager_id"/> -->
+<!-- 	            		    	    <field name="sdo"/> -->
+<!-- 		            		    	<field name="shon"/> -->
+<!-- 		            		    	<field name="effectif_personnel"/> -->
+<!-- 		            		    	<field name="time_openning"/> -->
+<!-- 		            		    	<group col="2" colspan="2"> -->
+<!-- 		            		    	    <field name="frequentation_an"/> -->
+<!-- 		            		    		<field name="frequentation_max"/> -->
+<!-- 		            		    	</group> -->
+<!-- 		            		    </group> -->
+<!-- 	            		    	<group colspan="4" col="6" string="Infos Techniques"> -->
+<!-- 		            		    	<field name="surface"/> -->
+<!-- 		            		    	<field name="floor_nb"/> -->
+<!-- 		            		    	<field name="built_year"/> -->
+<!-- 		            		    	<field name="mh_ismh_classification"/> -->
+<!-- 		            		    	<field name="erp_classification"/> -->
+<!-- 		            		    	<field name="security_com"/> -->
+<!-- 		            		    	<field name="build_type"/> -->
+<!-- 		            		    	<field name="luminaire_type"/> -->
+<!-- 		            		    	<newline/> -->
+<!-- 		            		    	<field name="floor_nature"/> -->
+<!-- 		            		    	<field name="wall_revetment"/> -->
+<!-- 	            		    	</group> -->
+<!-- 							</group>            		    	 -->
+<!--             		    </page> -->
+<!--             		    <page string="Terrain"> -->
+<!-- 	            	    	<group col="4" colspan="4"> -->
+<!-- 	            	    	    <field name="manager_id"/> -->
+<!-- 		            	    	<field name="surface"/> -->
+<!-- 		            	    	<field name="lenght"/> -->
+<!-- 		            	    	<field name="width"/> -->
+<!-- 		            	    	<field name="build_surface"/> -->
+<!-- 		            	    	Ref Cadastale ? -->
+<!-- 		            	    </group> -->
+<!-- 	            	    </page> -->
+<!--             		    <page string="Voirie"> -->
+<!--             		        <group col="4" colspan="4"> -->
+<!-- 					           	<field name="revetment_type"/> -->
+<!-- 					           	<field name="luminaire_type"/> -->
+<!-- 				           	</group> -->
+<!--             		    </page> -->
+<!--             		    <page string="Incoming internal interventions"> -->
+<!--             		        <field name="occurrences_contract_ids" nolabel="1"> -->
+<!--             		            <tree colors="grey:state=='done';red:state=='cancel'"> -->
+<!--             		                <field name="date_order"/> -->
+<!--             		                <field name="technical_service_id"/> -->
+<!--             		                <field name="type_inter"/> -->
+<!--             		                <field name="observation"/> -->
+<!--             		                <field name="state"/> -->
+            		                
+<!--             		            </tree> -->
+<!--             		        </field> -->
+<!--             		    </page> -->
+<!--             		    <page string="Contracts"> -->
+<!--    	            	        <field name="patrimoine_contract_ids" nolabel="1"> -->
+<!-- 	            	        	<tree string="Contracts"> -->
+<!-- 	            	        		<field name="sequence"/> -->
+<!-- 	            	        		<field name="name"/> -->
+<!-- 	            	        		<field name="supplier_id"/> -->
+<!-- 	            	        		<field name="date_start_order"/> -->
+<!-- 	            	        		<field name="date_end_order"/> -->
+<!-- 	            	        	</tree> -->
+<!-- 	            	        </field> -->
+<!--             		    </page> -->
+            		    
+<!-- 	            	</notebook> -->
+<!--             	</form> -->
+<!--             </field> -->
+<!-- 	    </record> -->
 	    
 	    
 	    <record id="openstc_patrimoine_contract_tree" model="ir.ui.view">
@@ -187,7 +205,6 @@
         		<tree>
         		    <field name="sequence"/>
         		   <field name="name"/>
-        		   <field name="patrimoine_id"/>
         		   <field name="supplier_id"/>
         		   <field name="date_start_order"/>
         		   <field name="date_end_order"/>
@@ -204,12 +221,17 @@
         		    <notebook>
         		        <page string="General">
 		        		    <group colspan="4" col="4" string="General Infos">
-			        		   <field name="name"/>
-			        		   <field name="sequence" required="1"/>
-			        		   <field name="date_order" invisible = "1" required="1"/>
-			        		   <field name="date_start_order" required="1"/>
-			        		   <field name="date_end_order" required="1"/>
-			        		   <field name="patrimoine_id" context="{'default_openstc_maintenance':True}" domain="[('openstc_maintenance','=',True)]" required="1"/>
+				        		<field name="name"/>
+				        		<field name="sequence" required="1"/>
+				        		<field name="date_order" invisible = "1" required="1"/>
+				        		<field name="date_start_order" required="1"/>
+				        		<field name="date_end_order" required="1"/>
+				        		<!-- <field name="patrimoine_id" context="{'default_openstc_maintenance':True}" domain="[('openstc_maintenance','=',True)]" required="1"/> -->
+				        		<field name="patrimoine_is_equipment"/>
+								<group colspan="2" col="2">
+									<field name="equipment_id" attrs="{'invisible':[('patrimoine_is_equipment','=',False)]}"/>
+									<field name="site_id" attrs="{'invisible':[('patrimoine_is_equipment','=',True)]}"/>
+								</group>
 		        		   	</group>
 							<group colspan="4" col="4" string="Intervenant">
 								<field name="internal_inter"/>
@@ -295,7 +317,7 @@
 	            <tree colors="grey:state=='done';red:state=='cancel'">
 				    <field name="date_order"/>
 				    <field name="technical_service_id"/>
-				    <field name="patrimoine_id"/>
+				    <field name="patrimoine_name"/>
 				    <field name="type_inter"/>
 				    <field name="observation"/>
 				    <field name="state"/>

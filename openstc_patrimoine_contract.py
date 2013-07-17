@@ -33,12 +33,30 @@ from tools.translate import _
 class openstc_patrimoine_contract(osv.osv):
     _name = "openstc.patrimoine.contract"
     
+    
+    def _get_patrimony_name(self, cr, uid, ids, name ,args, context=None):
+        ret = {}
+        for contract in self.browse(cr, uid, ids, context=context):
+            name = ''
+            if contract.patrimoine_is_equipment:
+                if contract.equipment_id:
+                    name = contract.equipment_id.name_template
+            elif contract.site_id:
+                name = contract.site_id.name
+            ret.update({contract.id:name})
+        return ret
+    
     _AVAILABLE_STATE_VALUES = [('draft','Draft'),('confirm','Confirm'),('done','Done')]
     
     _columns = {
         'name':fields.char('Name',size=128,required=True),
         'sequence':fields.char('Sequence',size=32),
-        'patrimoine_id':fields.many2one('product.product','patrimony associated'),
+        #'patrimoine_id':fields.many2one('product.product','patrimony associated'),
+        'patrimoine_is_equipment':fields.boolean('Is Equipment', required=True),
+        'equipment_id':fields.many2one('openstc.equipment','Equipment'),
+        'patrimoine_name':fields.function(_get_patrimony_name,type='char',string='Patrimony',
+                                          store={'openstc.patrimoine.contract':[lambda self,cr,uid,ids,ctx:ids,['equipment_id','site_id','patrimoine_is_equipment'],10]}),
+        'site_id':fields.many2one('openstc.site','Site'),
         'supplier_id':fields.many2one('res.partner','Supplier', domain=[('supplier','=',True)]),
         'internal_inter':fields.boolean('En régie',),
         'technical_service_id':fields.many2one('openstc.service','Internal Service',help="Technical service that will work according to this contract"),
@@ -56,6 +74,7 @@ class openstc_patrimoine_contract(osv.osv):
         'state':'draft',
         'internal_inter':False,
         'date_order':fields.date.context_today,
+        'patrimoine_is_equipment':lambda *a: False,
         }
 
 
@@ -177,6 +196,12 @@ class openstc_patrimoine_contract_line(osv.osv):
                 ret.append(item.contract_line_id.id)
         return ret
     
+    def _get_line_from_contracts(self, cr, uid, ids, context=None):
+        ret = []
+        for contract in self.browse(cr, uid, ids, context=None):
+            ret.extend([line.id for line in contract.contract_line])
+        return ret
+    
     _columns = {
         #'name':fields.char('Name',size=128),
         'contract_id':fields.many2one('openstc.patrimoine.contract', 'Contract linked'),
@@ -195,7 +220,12 @@ class openstc_patrimoine_contract_line(osv.osv):
         'type_inter':fields.many2one('openstc.patrimoine.contract.intervention.type','Intervention Type'),
         'occurrence_line':fields.one2many('openstc.patrimoine.contract.occurrence', 'contract_line_id', 'Occurrence(s)'),
         'technical_service_id':fields.related('contract_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
-        'patrimoine_id':fields.related('contract_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
+        #'patrimoine_id':fields.related('contract_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
+        'equipment_id':fields.related('contract_id','equipment_id',type='many2one',relation='openstc.equipment',string="equipment", store=True),
+        'site_id':fields.related('contract_id','site_id',type='many2one',relation='openstc.site',string="Site", store=True),
+        'patrimoine_name':fields.related('contract_id','patrimoine_name',type='char', string="patrimony",
+                                         store={'openstc.patrimoine.contract':[_get_line_from_contracts,['equipment_id','site_id','patrimoine_is_equipment'],10],
+                                                'openstc.patrimoine.contract.line':[lambda self,cr,uid,ids,ctx={}:ids,['contract_id'],9]}),
         }
 
     _defaults = {
@@ -322,8 +352,14 @@ openstc_patrimoine_contract_line()
 
 class openstc_patrimoine_contract_occurrence(osv.osv):
     
+    def _get_occur_from_contracts(self, cr ,uid, ids, context=None):
+        ret = []
+        for contract in self.browse(cr, uid, ids, context=context):
+            for line in contract.contract_line:
+               ret.extend([occur.id for occur in line.occurrence_line]) 
+        return ret
+    
     STATE_AVAIL_VALUES = [('draft','Draft'),('done','Done'),('cancel','Cancel')]
-
     
     _name = 'openstc.patrimoine.contract.occurrence'
     _columns = {
@@ -332,7 +368,12 @@ class openstc_patrimoine_contract_occurrence(osv.osv):
         'contract_line_id':fields.many2one('openstc.patrimoine.contract.line', 'Line Contract linked'),
         'observation':fields.text('Observations'),
         'technical_service_id':fields.related('contract_line_id','technical_service_id',type='many2one',relation='openstc.service', string='Internal Service', store=True),
-        'patrimoine_id':fields.related('contract_line_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
+        #'patrimoine_id':fields.related('contract_line_id','patrimoine_id',type='many2one',relation='product.product',string="patrimony associated", store=True),
+        'equipment_id':fields.related('contract_line_id','equipment_id',type='many2one',relation='openstc.equipment',string="Equipment", store=True),
+        'site_id':fields.related('contract_line_id','site_id',type='many2one',relation='openstc.site',string="Site", store=True),
+        'patrimoine_name':fields.related('contract_line_id','patrimoine_name',type='char', string="Patrimony",
+                                         store={'openstc.patrimoine.contract':[_get_occur_from_contracts,['equipment_id','site_id','patrimoine_is_equipment'],10],
+                                                'openstc.patrimoine.contract.occurrence':[lambda self,cr,uid,ids,ctx={}:ids,['contract_line_id'],9]}),
         'type_inter':fields.related('contract_line_id','type_inter', type="many2one", relation='openstc.patrimoine.contract.intervention.type', string="Type Inter", store=True)
         }
     _defaults = {
