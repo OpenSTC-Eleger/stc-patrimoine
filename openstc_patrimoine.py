@@ -67,23 +67,5 @@ class openstc_patrimoine_site(osv.osv):
 
 openstc_patrimoine_site()
 
-class equipment(osv.osv):
-    
-    _inherit = "openstc.equipment"
-    _name = "openstc.equipment"
-
-    _columns = {
-        'manager_id':fields.many2one('res.users','Responsable'),
-        'energy_type':fields.char('Type d\'énergie',size=128),
-        'length_amort':fields.integer('Durée d\'amortissement'),
-        'purchase_price':fields.float('Prix d\'achat',digits=(6,2)),
-
-        }
-
-    _defaults = {
-        'type_prod':'materiel',
-        }
-
-equipment()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
