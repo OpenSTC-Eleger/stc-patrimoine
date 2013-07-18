@@ -63,9 +63,14 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
 				<search>
-                    <filter name="incoming" string="Incoming" domain="[('state','=','draft')]"
-                        help="If set, displays only incoming interventions, otherwise displays all interventions."/>
-				    <field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
+<!--                     <filter name="incoming" string="Incoming" domain="[('state','=','draft')]" -->
+<!--                         help="If set, displays only incoming interventions, otherwise displays all interventions."/> -->
+				    <filter name="equipment" string="Equipments" domain="[('patrimoine_is_equipment','=',True)]"/>
+					<filter name="site" string="Sites" domain="[('patrimoine_is_equipment','=',False)]"/>
+					<!-- <filter name="by_service" string="Internal" domain="[('','=',)]"/>
+					<filter name="by_partner" string="By Supplier" domain="[('patrimoine_is_equipment','=',False)]"/>-->
+					<field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
+					
 					<newline/>
 					<group expand="1" string="Group By">
 						<filter name="group_inter_type" string="Group by Object" context="{'group_by':'type_inter'}"/>
@@ -84,7 +89,7 @@
             <field name="res_model">openstc.patrimoine.contract.occurrence</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_incoming':'1'}</field>
+            <field name="domain">[('state','=','draft')]</field>
             <field name="view_id" ref="openstc_patrimoine_contract_occurrence_view_search"/>
 		</record>
 		

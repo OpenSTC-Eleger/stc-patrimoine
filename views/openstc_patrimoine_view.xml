@@ -227,7 +227,7 @@
 				        		<field name="date_start_order" required="1"/>
 				        		<field name="date_end_order" required="1"/>
 				        		<!-- <field name="patrimoine_id" context="{'default_openstc_maintenance':True}" domain="[('openstc_maintenance','=',True)]" required="1"/> -->
-				        		<field name="patrimoine_is_equipment"/>
+				        		<field name="patrimoine_is_equipment" on_change="onchange_patrimoine_is_equipment(patrimoine_is_equipment)"/>
 								<group colspan="2" col="2">
 									<field name="equipment_id" attrs="{'invisible':[('patrimoine_is_equipment','=',False)]}"/>
 									<field name="site_id" attrs="{'invisible':[('patrimoine_is_equipment','=',True)]}"/>
