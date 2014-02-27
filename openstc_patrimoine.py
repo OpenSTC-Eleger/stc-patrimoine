@@ -17,10 +17,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #############################################################################
-
+from openbase.openbase_core import OpenbaseCore
 from osv import fields, osv
 
-class openstc_patrimoine_site(osv.osv):
+class openstc_patrimoine_site(OpenbaseCore):
     _name="openstc.patrimoine.site"
     _inherits = {'product.product':'product_id'}
     
@@ -62,7 +62,7 @@ class openstc_patrimoine_site(osv.osv):
         }
 
 
-openstc_patrimoine_site()
+#openstc_patrimoine_site()
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

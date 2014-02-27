@@ -36,85 +36,16 @@
             <field name="view_mode">tree,form</field>
 		</record>
 		
-		
-		<record id="openstc_patrimoine_contract_line_view_search" model="ir.ui.view">
-   	        <field name="name">openstc.patrimoine.contract.line.search</field>
-            <field name="model">openstc.patrimoine.contract.line</field>
-            <field name="type">search</field>
-            <field name="arch" type="xml">
-				<search>
-				    <field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
-				</search>
-            </field>
-		</record>
-		
-		<record id="action_openstc_patrimoine_contract_line_view_all" model="ir.actions.act_window">
-            <field name="name">Incoming interventions</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">openstc.patrimoine.contract.line</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="openstc_patrimoine_contract_line_view_search"/>
-		</record>
-		
-		<record id="openstc_patrimoine_contract_occurrence_view_search" model="ir.ui.view">
-   	        <field name="name">openstc.patrimoine.contract.occurrence.search</field>
-            <field name="model">openstc.patrimoine.contract.occurrence</field>
-            <field name="type">search</field>
-            <field name="arch" type="xml">
-				<search>
-<!--                     <filter name="incoming" string="Incoming" domain="[('state','=','draft')]" -->
-<!--                         help="If set, displays only incoming interventions, otherwise displays all interventions."/> -->
-				    <filter name="equipment" string="Equipments" domain="[('patrimoine_is_equipment','=',True)]"/>
-					<filter name="site" string="Sites" domain="[('patrimoine_is_equipment','=',False)]"/>
-					<!-- <filter name="by_service" string="Internal" domain="[('','=',)]"/>
-					<filter name="by_partner" string="By Supplier" domain="[('patrimoine_is_equipment','=',False)]"/>-->
-					<field name="technical_service_id" widget="selection" filter_domain="[('technical_service_id','=',self)]"/>
-					
-					<newline/>
-					<group expand="1" string="Group By">
-						<filter name="group_inter_type" string="Group by Object" context="{'group_by':'type_inter'}"/>
- 						<filter name="group_is_equipment" string="Group by Patrimony" context="{'group_by':'patrimoine_name'}"/>
-<!-- 						<filter name="group_equipment" string="Group by Equipment" context="{'group_by':'equipment_id'}"/> -->
-<!-- 						<filter name="group_site" string="Group by Site" context="{'group_by':'site_id'}"/> -->
-						
-					</group>
-				</search>
-            </field>
-		</record>
-		
-		<record id="action_openstc_patrimoine_contract_occurrence_view_all" model="ir.actions.act_window">
-            <field name="name">Incoming interventions</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">openstc.patrimoine.contract.occurrence</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('state','=','draft')]</field>
-            <field name="view_id" ref="openstc_patrimoine_contract_occurrence_view_search"/>
-		</record>
-		
-		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="10" name="Gestion Patrimoine"/>
-		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion Contrats" parent="base.openstc_patrimoine_main_menu"/>
+		<menuitem icon="terp-project" id="base.openstc_patrimoine_main_menu" sequence="10" name="OpenPatrimoine"/>
+		<menuitem id="openstc_patrimoine_contract" sequence="1" name="Gestion du Patrimoine" parent="base.openstc_patrimoine_main_menu"/>
 		<menuitem id="openstc_patrimoine_contract_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_view_all"
 		    parent="openstc_patrimoine_contract"/>
-		<menuitem id="openstc_patrimoine_contract_line_action_view_all" sequence="2" action="action_openstc_patrimoine_contract_occurrence_view_all" parent="openstc_patrimoine_contract"/>
 		
-		<menuitem id="openstc_patrimoine_config" sequence="2" name="Configuration" parent="base.openstc_patrimoine_main_menu"/>
+	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openbase.menu_configuration" sequence="1"
+	        name="Gestion du Patrimoine"/>
+		
 		<menuitem id="openstc_patrimoine_contract_inter_type_action_view_all" sequence="1" action="action_openstc_patrimoine_contract_inter_type_form"
-		    parent="openstc_patrimoine_config"/>
-				
+		    parent="openstc_patrimoine_menu_configuration"/>
 		
-		
-	    <menuitem id="openstc_patrimoine_menu_configuration" parent="openstc_patrimoine_config" sequence="1"
-	        name="patrimoine"/>
-	    
-	    <menuitem id="openstc_patrimoine_equipment_form_menu" parent="openstc_patrimoine_menu_configuration"
-	        sequence="1" action="action_openstc_patrimoine_equipment_form"/>
-	    <menuitem id="openstc_patrimoine_site_form_menu" parent="openstc_patrimoine_menu_configuration"
-	        sequence="1" action="action_openstc_patrimoine_site_form"/>
-	    
-	    
-	    
-	    
 	</data>
 </openerp>

@@ -32,15 +32,15 @@
 	            	        <field name="immat"/>
 	            	    </page>
 	            	    <page string="Incoming internal interventions">
-            		        <field name="occurrences_contract_ids" nolabel="1">
-            		            <tree colors="grey:state=='done';red:state=='cancel'">
-            		                <field name="date_order"/>
-            		                <field name="technical_service_id"/>
-            		                <field name="type_inter"/>
-            		                <field name="observation"/>
-            		                <field name="state"/>
-            		            </tree>
-            		        </field>
+<!--             		        <field name="occurrences_contract_ids" nolabel="1"> -->
+<!--             		            <tree colors="grey:state=='done';red:state=='cancel'"> -->
+<!--             		                <field name="date_order"/> -->
+<!--             		                <field name="technical_service_id"/> -->
+<!--             		                <field name="type_inter"/> -->
+<!--             		                <field name="observation"/> -->
+<!--             		                <field name="state"/> -->
+<!--             		            </tree> -->
+<!--             		        </field> -->
             		    </page>
 	            	    <page string="Contracts">
 	            	        <field name="patrimoine_contract_ids" nolabel="1">
@@ -81,16 +81,16 @@
             <field name="arch" type="xml">
         		<page string="General" position="after">
         		    <page string="Incoming internal interventions">
-            		        <field name="occurrences_contract_ids" nolabel="1">
-            		            <tree colors="grey:state=='done';red:state=='cancel'">
-            		                <field name="date_order"/>
-            		                <field name="technical_service_id"/>
-            		                <field name="type_inter"/>
-            		                <field name="observation"/>
-            		                <field name="state"/>
+<!--             		        <field name="occurrences_contract_ids" nolabel="1"> -->
+<!--             		            <tree colors="grey:state=='done';red:state=='cancel'"> -->
+<!--             		                <field name="date_order"/> -->
+<!--             		                <field name="technical_service_id"/> -->
+<!--             		                <field name="type_inter"/> -->
+<!--             		                <field name="observation"/> -->
+<!--             		                <field name="state"/> -->
             		                
-            		            </tree>
-            		        </field>
+<!--             		            </tree> -->
+<!--             		        </field> -->
             		    </page>
             		    <page string="Contracts">
    	            	        <field name="patrimoine_contract_ids" nolabel="1">
@@ -226,7 +226,6 @@
 				        		<field name="date_order" invisible = "1" required="1"/>
 				        		<field name="date_start_order" required="1"/>
 				        		<field name="date_end_order" required="1"/>
-				        		<!-- <field name="patrimoine_id" context="{'default_openstc_maintenance':True}" domain="[('openstc_maintenance','=',True)]" required="1"/> -->
 				        		<field name="patrimoine_is_equipment" on_change="onchange_patrimoine_is_equipment(patrimoine_is_equipment)"/>
 								<group colspan="2" col="2">
 									<field name="equipment_id" attrs="{'invisible':[('patrimoine_is_equipment','=',False)]}"/>
@@ -239,117 +238,16 @@
 								    <field name="supplier_id" attrs="{'invisible':[('internal_inter','=',True)]}"/>
 									<field name="technical_service_id" attrs="{'invisible':[('internal_inter','=',False)]}"/>
 							   </group>
-								<newline/>
-								<field name="contract_line" nolabel="1" colspan="4" context="{'default_start_recur':date_start_order,'default_end_recur':date_end_order}">
-									<tree string="Intervention(s) Contracted">
-									    <field name="type_inter"/>
-									    <field name="next_inter"/>
-									    <field name="recurrence_weight"/>
-									    <field name="recurrence"/>
-									</tree>
-								</field>
 							</group>
-<!-- 							<group colspan="3" col="4" string="Reccurence"> -->
-<!-- 								<field name="recurrence_weight"/> -->
-<!-- 								<field name="recurrence" nolabel="1" colspan="2"/> -->
-<!-- 							</group> -->
-<!-- 							<field name="first_inter" required="1"/> -->
-<!-- 							<field name="last_inter" readonly="1"/> -->
-<!-- 							<field name="next_inter"/> -->
-<!-- 							<newline/> -->
 							<field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
         					<group colspan="2" col="2">
-        					    <button name="get_all_recurrences" icon="gtk-execute" type="object" string="Compute recurrence"/>
         						<button name="confirm" string="Accept contract" icon="gtk-go-forward" states="draft"/>
         					</group>
         				</page>
-<!--         				<page string="Interventions generated"> -->
-<!--         				    <field name="intervention_ids"/> -->
-<!--         				</page> -->
         			</notebook>
         		</form>
         	</field>
 	    </record>
-	    
-	      <record id="openstc_patrimoine_contract_line_form" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.contract.line.form</field>
-            <field name="model">openstc.patrimoine.contract.line</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Intervention(s) Contracted">
-                    <group colspan="2" col="2">
-                    	<field name="type_inter" required="1"/>
-                        <field name="start_recur" required="1"/>
-	                    <field name="end_recur" required="1"/>
-	                    <group colspan="2" col="3">
-	                        <field name="recurrence_weight" required="1"/>
-	                        <field name="recurrence" nolabel="1" required="1"/>
-	           	        </group>
-	                    <group colspan="2" col="4">
-	                    	<field name="next_inter"/>
-	                   		<field name="last_inter" readonly="1"/>
-	                    </group>
-	                    <newline/>
-                    </group>
-                    <group colspan="2"/>
-                    <newline/>
-                    <field name="occurrence_line" nolabel="1">
-                        <tree string="Occurrence(s)">
-                            <field name="date_order"/>
-                            <field name="observation"/>
-                            <field name="state"/>
-                        </tree>
-                        <form string="Occurrence(s)">
-                            <field name="date_order"/>
-                            <field name="observation"/>
-                            <field name="state"/>
-                        </form>
-                    </field>
-                </form>
-            </field>
-        </record>
-	    
-        <record id="openstc_patrimoine_contract_occurrence_tree" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.contract.occurrence.tree</field>
-            <field name="model">openstc.patrimoine.contract.occurrence</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-	            <tree colors="grey:state=='done';red:state=='cancel'">
-				    <field name="date_order"/>
-				    <field name="technical_service_id"/>
-				    <field name="patrimoine_name"/>
-				    <field name="type_inter"/>
-				    <field name="observation"/>
-				    <field name="state"/>
-			    </tree>
-			</field>
-		</record>
-		
-	    <record id="openstc_patrimoine_contract_occurrence_form" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.contract.occurrence.form</field>
-            <field name="model">openstc.patrimoine.contract.occurrence</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form>
-				    <field name="date_order"/>
-				    <field name="type_inter"/>
-				    <field name="observation" colspan="4"/>
-				    <field name="state"/>
-			    </form>
-			</field>
-		</record>
-	    
-<!-- 	     <record id="openstc_patrimoine_contract_form_inherit_type" model="ir.ui.view"> -->
-<!-- 	        <field name="name">openstc.patrimoine.contract.inherit.type</field> -->
-<!--             <field name="model">openstc.patrimoine.contract</field> -->
-<!--             <field name="type">form</field> -->
-<!--             <field name="inherit_id" ref="openstc_patrimoine_contract_form"/> -->
-<!--             <field name="arch" type="xml"> -->
-<!--         		<form> -->
-<!--         		    <field name="type_intervention" position="after"/> -->
-<!-- 	    		</form> -->
-<!-- 	    	</field> -->
-<!-- 	    </record> -->
 	    
 	     <record id="openstc_patrimoine_contract_inter_type_form" model="ir.ui.view">
 	        <field name="name">openstc.patrimoine.contract.inter.type.form</field>

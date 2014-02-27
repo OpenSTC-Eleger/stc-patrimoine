@@ -17,27 +17,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
 #############################################################################
-
+from openbase.openbase_core import OpenbaseCore
 from osv import fields,osv
 
-class openstc_equipement(osv.osv):
+class openstc_equipement(OpenbaseCore):
     _inherit = "openstc.equipment"
 
     
     _columns = {
             'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'equipment_id', 'Contracts linked'),
-            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','equipment_id', string="Incoming internal interventions"),
+            #'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','equipment_id', string="Incoming internal interventions"),
 
         }
 openstc_equipement()
 
-class openstc_site(osv.osv):
+class openstc_site(OpenbaseCore):
     _inherit = "openstc.site"
 
     
     _columns = {
             'patrimoine_contract_ids':fields.one2many('openstc.patrimoine.contract', 'site_id', 'Contracts linked'),
-            'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','site_id', string="Incoming internal interventions"),
+            #'occurrences_contract_ids':fields.one2many('openstc.patrimoine.contract.occurrence','site_id', string="Incoming internal interventions"),
 
         }
 openstc_equipement()
