@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
 	<data>
-	    <record id="openstc_patrimoine_equipment_form" model="ir.ui.view">
-	        <field name="name">openstc.patrimoine.equipment.form</field>
-            <field name="model">openstc.equipment</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-            	<form>
-	            	<notebook>
-	            	    <page string="General">
-	            	        <field name="product_image" colspan="1" widget="image" nolabel="1"/>
-		            	    <group col="4" colspan="3">    
-		            	        <field name="name"/>
-					           	<field name="categ_id"/>
-					           	<field name="service"/>
-		            	        <field name="marque"/>
-		            	        <field name="year"/>
-		            	        <field name="purchase_price"/>
-		            	        <field name="list_price"/>
-		            	        <field name="length_amort"/>
-		            		</group>
-		            		<group colspan="2" col="2">
-			            		<field name="openstc_reservable"/>
-			            		<field name="openstc_maintenance"/>
-			            	</group>
-            		    </page>
-	            	    <page string="Vehicule">
-	            	        <field name="cv"/>
-	            	        <field name="km"/>
-	            	        <field name="time"/>
-	            	        <field name="immat"/>
-	            	    </page>
-	            	    <page string="Incoming internal interventions">
-<!--             		        <field name="occurrences_contract_ids" nolabel="1"> -->
-<!--             		            <tree colors="grey:state=='done';red:state=='cancel'"> -->
-<!--             		                <field name="date_order"/> -->
-<!--             		                <field name="technical_service_id"/> -->
-<!--             		                <field name="type_inter"/> -->
-<!--             		                <field name="observation"/> -->
-<!--             		                <field name="state"/> -->
-<!--             		            </tree> -->
-<!--             		        </field> -->
-            		    </page>
-	            	    <page string="Contracts">
-	            	        <field name="patrimoine_contract_ids" nolabel="1">
-	            	        	<tree string="Contracts">
-	            	        		<field name="sequence"/>
-	            	        		<field name="name"/>
-	            	        		<field name="supplier_id"/>
-	            	        		<field name="date_start_order"/>
-	            	        		<field name="date_end_order"/>
-	            	        	</tree>
-	            	        </field>
-	            	    </page>
-	            	</notebook>
-            	</form>
-            </field>
-	    </record>
+<!-- 	    <record id="openstc_patrimoine_equipment_form" model="ir.ui.view"> -->
+<!-- 	        <field name="name">openstc.patrimoine.equipment.form</field> -->
+<!--             <field name="model">openstc.equipment</field> -->
+<!--             <field name="type">form</field> -->
+<!--             <field name="arch" type="xml"> -->
+<!--             	<form> -->
+<!-- 	            	<notebook> -->
+<!-- 	            	    <page string="General"> -->
+<!-- 	            	        <field name="product_image" colspan="1" widget="image" nolabel="1"/> -->
+<!-- 		            	    <group col="4" colspan="3">     -->
+<!-- 		            	        <field name="name"/> -->
+<!-- 					           	<field name="categ_id"/> -->
+<!-- 					           	<field name="service"/> -->
+<!-- 		            	        <field name="marque"/> -->
+<!-- 		            	        <field name="purchase_date"/> -->
+<!-- 		            	        <field name="purchase_price"/> -->
+<!-- 		            	        <field name="list_price"/> -->
+<!-- 		            	        <field name="length_amort"/> -->
+<!-- 		            		</group> -->
+<!-- 		            		<group colspan="2" col="2"> -->
+<!-- 			            		<field name="openstc_reservable"/> -->
+<!-- 			            		<field name="openstc_maintenance"/> -->
+<!-- 			            	</group> -->
+<!--             		    </page> -->
+<!-- 	            	    <page string="Vehicule"> -->
+<!-- 	            	        <field name="cv"/> -->
+<!-- 	            	        <field name="km"/> -->
+<!-- 	            	        <field name="time"/> -->
+<!-- 	            	        <field name="immat"/> -->
+<!-- 	            	    </page> -->
+<!-- 	            	    <page string="Incoming internal interventions"> -->
+<!--             		        <field name="occurrences_contract_ids" nolabel="1"> --> 
+<!--             		            <tree colors="grey:state=='done';red:state=='cancel'">  -->
+<!--             		                <field name="date_order"/> --> 
+<!--             		                <field name="technical_service_id"/> --> 
+<!--             		                <field name="type_inter"/> --> 
+<!--             		                <field name="observation"/> --> 
+<!--             		                <field name="state"/> --> 
+<!--            		            </tree> --> 
+<!--              		        </field> --> 
+<!--             		    </page> -->
+<!-- 	            	    <page string="Contracts"> -->
+<!-- 	            	        <field name="patrimoine_contract_ids" nolabel="1"> -->
+<!-- 	            	        	<tree string="Contracts"> -->
+<!-- 	            	        		<field name="sequence"/> -->
+<!-- 	            	        		<field name="name"/> -->
+<!-- 	            	        		<field name="supplier_id"/> -->
+<!-- 	            	        		<field name="date_start_order"/> -->
+<!-- 	            	        		<field name="date_end_order"/> -->
+<!-- 	            	        	</tree> -->
+<!-- 	            	        </field> -->
+<!-- 	            	    </page> -->
+<!-- 	            	</notebook> -->
+<!--             	</form> -->
+<!--             </field> -->
+<!-- 	    </record> -->
 	    
 	    <record id="openstc_patrimoine_equipment_tree" model="ir.ui.view">
 	        <field name="name">openstc.patrimoine.equipment.tree</field>
@@ -205,7 +205,8 @@
         		<tree>
         		    <field name="sequence"/>
         		   <field name="name"/>
-        		   <field name="supplier_id"/>
+        		   <field name="provider_name"/>
+        		   <field name="patrimoine_name"/>
         		   <field name="date_start_order"/>
         		   <field name="date_end_order"/>
         		</tree>
@@ -221,8 +222,10 @@
         		    <notebook>
         		        <page string="General">
 		        		    <group colspan="4" col="4" string="General Infos">
-				        		<field name="name"/>
 				        		<field name="sequence" required="1"/>
+				        		<newline/>
+				        		<field name="name"/>
+				        		<field name="category_id"/>
 				        		<field name="date_order" invisible = "1" required="1"/>
 				        		<field name="date_start_order" required="1"/>
 				        		<field name="date_end_order" required="1"/>
@@ -251,7 +254,7 @@
 	    
 	     <record id="openstc_patrimoine_contract_inter_type_form" model="ir.ui.view">
 	        <field name="name">openstc.patrimoine.contract.inter.type.form</field>
-            <field name="model">openstc.patrimoine.contract.intervention.type</field>
+            <field name="model">openstc.patrimoine.contract.type</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
         		<form>

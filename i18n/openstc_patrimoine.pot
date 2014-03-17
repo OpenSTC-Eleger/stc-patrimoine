@@ -266,7 +266,7 @@ msgstr ""
 
 #. module: openstc_patrimoine
 #: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract_intervention_type
-msgid "openstc.patrimoine.contract.intervention.type"
+msgid "openstc.patrimoine.contract.type"
 msgstr ""
 
 #. module: openstc_patrimoine
@@ -597,7 +597,7 @@ msgstr ""
 
 #. module: openstc_patrimoine
 #: field:openstc.patrimoine.contract,name:0
-#: field:openstc.patrimoine.contract.intervention.type,name:0
+#: field:openstc.patrimoine.contract.type,name:0
 #: field:openstc.users.accreditation,name:0
 #: field:openstc.users.license,name:0
 msgid "Name"
