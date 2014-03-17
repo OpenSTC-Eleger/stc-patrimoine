@@ -73,17 +73,25 @@ class openstc_patrimoine_contract(OpenbaseCore):
     """ @return: list of tuples of available 'type renewals' (key,value)
     @note: Override this method to update this list instead of its private name-like method"""
     def get_type_renewal_values(self, cr, uid, context=None):
-        return [('auto','Tacite'),('manual','Express')]
+        return [('auto','Tacite'),('manual','Express'), ('none','Aucun')]
     
     def _get_type_renewal_values(self, cr, uid, context=None):
         return self.get_type_renewal_values(cr, uid, context=context)
+    
+    """ @note: return True if deadline_delay has expired, False otherwise"""
+    def _get_delay_passed(self,cr, uid, ids, name ,args,context=None):
+        ret = {}.fromkeys(ids, False)
+        for contract in self.browse(cr, uid, ids, context=context):
+            delta = datetime.strptime(contract.date_end_order, '%Y-%m-%d') - datetime.now()
+            ret[contract.id] = delta.total_seconds() / (3600.0 *24.0) <= contract.deadline_delay
+        return ret
     
     _actions = {
         'update':lambda self,cr,uid,record,groups_code: True,
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft',),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('draft',),
         'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
-        'extend':lambda self,cr,uid,record,groups_code: record.state in ('confirm','done'),
+        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('renewed','no_renew') and record.delay_passed,
         }
     
     _columns = {
@@ -104,17 +112,20 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'date_end_order':fields.date('Date end Contract',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.'),
         'deadline_delay':fields.integer('Delay (days)'),
         'type_renewal':fields.selection(_get_type_renewal_values, 'Type renewal'),
-        'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True),
+        'delay_passed':fields.function(_get_delay_passed, method=True, type='boolean', string='To renew', store=False),
+        'renewed':fields.boolean('Had been renew ?'),
+        'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
         
         }
 
     _defaults = {
         'sequence':lambda self,cr,uid,ctx: self.pool.get("ir.sequence").next_by_code(cr, uid, 'contract.number', ctx),
-        'state':'draft',
-        'internal_inter':False,
+        'state':lambda *a: 'draft',
+        'internal_inter':lambda *a: False,
         'date_order':fields.date.context_today,
         'patrimoine_is_equipment':lambda *a: False,
         'type_renewal': lambda *a: 'auto',
+        'renewed': lambda *a: False,
         }
 
 
