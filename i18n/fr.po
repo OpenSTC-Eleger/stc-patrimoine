@@ -67,7 +67,7 @@ msgid "Date of the end of this contract. When ended, you could extend it's durat
 msgstr "Date de fin de contrat. Vous pouvez ralonger cette durée ou créer un autre contrat une fois celui-ci expiré."
 
 #. module: openstc_patrimoine
-#: help:openstc.patrimoine.contract.line,start_recur:0
+#: help:openstc.task.recurrence,start_recur:0
 msgid "Date of recurrence beginning"
 msgstr "Date de début de la récurrence"
 
@@ -97,8 +97,8 @@ msgid "Compute recurrence"
 msgstr "Calculer la récurrence"
 
 #. module: openstc_patrimoine
-#: view:openstc.patrimoine.contract.line:0
-#: field:openstc.patrimoine.contract.line,occurrence_line:0
+#: view:openstc.task.recurrence:0
+#: field:openstc.task.recurrence,occurrence_line:0
 msgid "Occurrence(s)"
 msgstr "Occurrence(s)"
 
@@ -114,13 +114,13 @@ msgid "Intevention types"
 msgstr "Types d'intervention"
 
 #. module: openstc_patrimoine
-#: selection:openstc.patrimoine.contract.line,recurrence:0
+#: selection:openstc.task.recurrence,recurrence:0
 msgid "Day"
 msgstr "Jour"
 
 #. module: openstc_patrimoine
 #: field:openstc.patrimoine.contract,technical_service_id:0
-#: field:openstc.patrimoine.contract.line,technical_service_id:0
+#: field:openstc.task.recurrence,technical_service_id:0
 #: field:openstc.patrimoine.contract.occurrence,technical_service_id:0
 msgid "Internal Service"
 msgstr "Service interne"
@@ -158,7 +158,7 @@ msgid "Access Rights"
 msgstr "Droits d'accès"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,start_recur:0
+#: field:openstc.task.recurrence,start_recur:0
 msgid "Recurrence start date"
 msgstr "Date de début de la récurrence"
 
@@ -203,7 +203,7 @@ msgid "The chosen company is not in the allowed companies for this user"
 msgstr "La société choisie ne fait pas partie des sociétés autorisées pour cet utilisateur"
 
 #. module: openstc_patrimoine
-#: help:openstc.patrimoine.contract.line,next_inter:0
+#: help:openstc.task.recurrence,next_inter:0
 msgid "Date of the last intervention executed in this contract"
 msgstr "Date de la dernière intervention faite dans le cadre de ce contrat"
 
@@ -250,7 +250,7 @@ msgstr "Infos Générales"
 
 #. module: openstc_patrimoine
 #: view:openstc.patrimoine.contract:0
-#: view:openstc.patrimoine.contract.line:0
+#: view:openstc.task.recurrence:0
 msgid "Intervention(s) Contracted"
 msgstr "Intervention(s) contractée(s)"
 
@@ -285,7 +285,7 @@ msgid "Effectif personnel"
 msgstr "Effectif personnel"
 
 #. module: openstc_patrimoine
-#: help:openstc.patrimoine.contract.line,last_inter:0
+#: help:openstc.task.recurrence,last_inter:0
 msgid "Planned date of the next intervention, you can change it as you want."
 msgstr "Date de prochaine intervention prévue, vous pouvez librement la changer."
 
@@ -295,7 +295,7 @@ msgid "Durée d'amortissement"
 msgstr "Durée d'amortissement"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,recurrence_weight:0
+#: field:openstc.task.recurrence,recurrence_weight:0
 msgid "Each"
 msgstr "Chaque"
 
@@ -305,7 +305,7 @@ msgid "openstc.patrimoine.site"
 msgstr "openstc.patrimoine.site"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,contract_id:0
+#: field:openstc.task.recurrence,contract_id:0
 msgid "Contract linked"
 msgstr "Contrat lié"
 
@@ -315,7 +315,7 @@ msgid "MH"
 msgstr "MH"
 
 #. module: openstc_patrimoine
-#: selection:openstc.patrimoine.contract.line,recurrence:0
+#: selection:openstc.task.recurrence,recurrence:0
 msgid "Month"
 msgstr "Mois"
 
@@ -377,7 +377,7 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: openstc_patrimoine
-#: selection:openstc.patrimoine.contract.line,recurrence:0
+#: selection:openstc.task.recurrence,recurrence:0
 msgid "Week"
 msgstr "Semaine"
 
@@ -405,7 +405,7 @@ msgid "Type de construction"
 msgstr "Type de construction"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,last_inter:0
+#: field:openstc.task.recurrence,last_inter:0
 msgid "Date last intervention"
 msgstr "Date de dernière intervention"
 
@@ -435,7 +435,7 @@ msgid "Site associé"
 msgstr "Site associé"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,end_recur:0
+#: field:openstc.task.recurrence,end_recur:0
 msgid "Recurrence end date"
 msgstr "Date de fin de récurrence"
 
@@ -446,7 +446,7 @@ msgstr "Accepter le contrat"
 
 #. module: openstc_patrimoine
 #: field:openstc.patrimoine.contract,patrimoine_id:0
-#: field:openstc.patrimoine.contract.line,patrimoine_id:0
+#: field:openstc.task.recurrence,patrimoine_id:0
 #: field:openstc.patrimoine.contract.occurrence,patrimoine_id:0
 msgid "patrimony associated"
 msgstr "Patrimoine concerné"
@@ -503,12 +503,12 @@ msgid "Revêtement mural"
 msgstr "Revêtement mural"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,type_inter:0
+#: field:openstc.task.recurrence,type_inter:0
 msgid "Intervention Type"
 msgstr "Type d'intervention"
 
 #. module: openstc_patrimoine
-#: help:openstc.patrimoine.contract.line,end_recur:0
+#: help:openstc.task.recurrence,end_recur:0
 msgid "Date of recurrence ending"
 msgstr "Date de fin de récurrence"
 
@@ -524,7 +524,7 @@ msgid "Sites"
 msgstr "Sites"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,recurrence:0
+#: field:openstc.task.recurrence,recurrence:0
 msgid "Recurrence"
 msgstr "Récurrence"
 
@@ -559,14 +559,14 @@ msgid "Product"
 msgstr "Produit"
 
 #. module: openstc_patrimoine
-#: field:openstc.patrimoine.contract.line,next_inter:0
+#: field:openstc.task.recurrence,next_inter:0
 msgid "Date next intervention"
 msgstr "Date de prochaine intervention"
 
 #. module: openstc_patrimoine
 #: model:ir.model,name:openstc_patrimoine.model_openstc_patrimoine_contract_line
-msgid "openstc.patrimoine.contract.line"
-msgstr "openstc.patrimoine.contract.line"
+msgid "openstc.task.recurrence"
+msgstr "openstc.task.recurrence"
 
 #. module: openstc_patrimoine
 #: view:openstc.equipment:0
@@ -650,7 +650,7 @@ msgid "Error: Invalid ean code"
 msgstr "Erreur : Code EAN invalide"
 
 #. module: openstc_patrimoine
-#: selection:openstc.patrimoine.contract.line,recurrence:0
+#: selection:openstc.task.recurrence,recurrence:0
 msgid "Year"
 msgstr "Année"
 
