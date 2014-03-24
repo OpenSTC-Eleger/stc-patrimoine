@@ -27,7 +27,7 @@ from lxml import etree
 from lxml.builder import E
 import re
 from tools.translate import _
-
+import netsvc
 class openstc_patrimoine_contract(OpenbaseCore):
     _name = "openstc.patrimoine.contract"
     
@@ -68,7 +68,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
             search_args.extend(['|',('technical_service_id.name',arg[1],arg[2]),('partner_id.name',arg[1],arg[2])])
         return search_args
         
-    _AVAILABLE_STATE_VALUES = [('draft','Draft'),('confirm','Confirm'),('done','Done')]
+    _AVAILABLE_STATE_VALUES = [('draft','Draft'),('wait','Wait'),('confirm','Confirm'),('done','Done')]
     
     """ @return: list of tuples of available 'type renewals' (key,value)
     @note: Override this method to update this list instead of its private name-like method"""
@@ -88,8 +88,8 @@ class openstc_patrimoine_contract(OpenbaseCore):
     
     _actions = {
         'update':lambda self,cr,uid,record,groups_code: True,
-        'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft',),
-        'confirm':lambda self,cr,uid,record,groups_code: record.state in ('draft',),
+        'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
+        'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
         'renew':lambda self,cr,uid,record,groups_code: record.state not in ('renewed','no_renew') and record.delay_passed,
         }
@@ -127,13 +127,41 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'type_renewal': lambda *a: 'auto',
         'renewed': lambda *a: False,
         }
-
+    
+    def wkf_draft(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state':'draft'},context=context)
+        return True
+    
+    def wkf_redraft(self, cr, uid, ids, context=None):
+        
+        return True
+    
+    def wkf_wait(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state':'wait'},context=context)
+        return True
+    
+    def wkf_confirm(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state':'confirm'},context=context)
+        return True
+    
+    def wkf_done(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state':'done'},context=context)
+        return True
+    
 
     def onchange_patrimoine_is_equipment(self, cr, uid, ids, patrimoine_is_equipment=False):
         if patrimoine_is_equipment:
             return {'value':{'site_id':False}}
         return {'value':{'equipment_id':False}}
-        
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        wkf_service = netsvc.LocalService('workflow')
+        if 'wkf_evolve' in vals:
+            signal = vals.pop('wkf_evolve')
+            for id in ids:
+                wkf_service.trg_validate(uid, 'openstc.patrimoine.contract', id, signal, cr)
+        return super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=context)
+    
 openstc_patrimoine_contract()
 
 
