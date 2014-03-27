@@ -91,7 +91,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
-        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('renewed','no_renew') and record.delay_passed,
+        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('renewed','no_renew'),
         }
     
     _columns = {
@@ -153,6 +153,25 @@ class openstc_patrimoine_contract(OpenbaseCore):
         if patrimoine_is_equipment:
             return {'value':{'site_id':False}}
         return {'value':{'equipment_id':False}}
+    
+    """@note: Return specific values for the newly created contract
+    same duration as original contract, new contract begin at date_end of original one """
+    def prepare_default_values_renewed_contract(self, cr, uid, original_contract, context=None):
+        date_end = datetime.strptime(original_contract.date_end_order, '%Y-%m-%d')
+        date_start = datetime.strptime(original_contract.date_start_order, '%Y-%m-%d')
+        delta = date_end - date_start
+        new_date_end = date_end + delta 
+        return {
+            'date_start_order':original_contract.date_end_order,
+            'date_end_order':new_date_end.strftime('%Y-%m-%d'),
+            }
+    
+    """ @note: for each contract, create a new one with same setting"""
+    def renew(self, cr, uid, ids, context=None):
+        for contract in self.browse(cr, uid, ids ,context=context):
+            vals = self.prepare_default_values_renewed_contract(cr, uid, contract, context=context)
+            new_id = self.copy(cr, uid, contract.id, vals, context=context)
+        return True
     
     def write(self, cr, uid, ids, vals, context=None):
         wkf_service = netsvc.LocalService('workflow')
