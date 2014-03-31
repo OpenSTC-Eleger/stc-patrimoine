@@ -87,7 +87,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
         return ret
     
     _actions = {
-        'update':lambda self,cr,uid,record,groups_code: True,
+        'update':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
