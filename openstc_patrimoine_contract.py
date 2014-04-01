@@ -88,13 +88,14 @@ class openstc_patrimoine_contract(OpenbaseCore):
             ret[contract.id] = {'delay_passed': days_remaining <= contract.deadline_delay,
                                      'warning_delay': days_remaining <= contract.deadline_delay + warning_delay}
         return ret
-    
+       
     _actions = {
         'update':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
-        'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
-        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('renewed','no_renew'),
+        #'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
+        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
+        'close':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
         }
     
     _columns = {
@@ -154,7 +155,12 @@ class openstc_patrimoine_contract(OpenbaseCore):
     def wkf_done(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state':'done'},context=context)
         return True
+
+    def wkf_renew(self, cr, uid, ids, context=None):
+        return self.renew(cr, uid, ids, context=context)
     
+    def wkf_no_renew(self, cr, uid, ids, context=None):
+        return True
 
     def onchange_patrimoine_is_equipment(self, cr, uid, ids, patrimoine_is_equipment=False):
         if patrimoine_is_equipment:

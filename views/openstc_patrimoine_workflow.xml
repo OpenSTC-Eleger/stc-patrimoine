@@ -57,6 +57,20 @@
 			<field name="action">wkf_confirm()</field>
 		</record>
 		
+        <record model="workflow.activity" id="act_renew">
+			<field name="wkf_id" ref="wkf_contract" />
+			<field name="name">Renew</field>
+			<field name="kind">function</field>
+			<field name="action">wkf_renew()</field>
+		</record>
+		
+        <record model="workflow.activity" id="act_no_renew">
+			<field name="wkf_id" ref="wkf_contract" />
+			<field name="name">No renew</field>
+			<field name="kind">function</field>
+			<field name="action">wkf_no_renew()</field>
+		</record>
+        
         <record model="workflow.activity" id="act_done">
 			<field name="wkf_id" ref="wkf_contract" />
 			<field name="name">Done</field>
@@ -77,6 +91,12 @@
 			<field name="signal">redraft</field>
 		</record>
    		
+   		<record model="workflow.transition" id="trans_contract_confirm_redraft">
+			<field name="act_from" ref="act_confirm" />
+			<field name="act_to" ref="act_redraft" />
+			<field name="signal">redraft</field>
+		</record>
+   		
    		<record model="workflow.transition" id="trans_contract_redraft_draft">
 			<field name="act_from" ref="act_redraft" />
 			<field name="act_to" ref="act_draft" />
@@ -88,11 +108,40 @@
 			<field name="signal">confirm</field>
 		</record>
 		
-   		<record model="workflow.transition" id="trans_contract_confirm_done">
-			<field name="act_from" ref="act_confirm" />
-			<field name="act_to" ref="act_done" />
-			<field name="signal">done</field>
+   		<record model="workflow.transition" id="trans_contract_wait_renew">
+			<field name="act_from" ref="act_wait" />
+			<field name="act_to" ref="act_renew" />
+			<field name="signal">renew</field>
 		</record>
-        
+   		
+   		
+   		<record model="workflow.transition" id="trans_contract_wait_no_renew">
+			<field name="act_from" ref="act_wait" />
+			<field name="act_to" ref="act_no_renew" />
+			<field name="signal">close</field>
+		</record>
+		
+   		<record model="workflow.transition" id="trans_contract_confirm_renew">
+			<field name="act_from" ref="act_confirm" />
+			<field name="act_to" ref="act_renew" />
+			<field name="signal">renew</field>
+		</record>
+		
+   		<record model="workflow.transition" id="trans_contract_confirm_no_renew">
+			<field name="act_from" ref="act_confirm" />
+			<field name="act_to" ref="act_no_renew" />
+			<field name="signal">close</field>
+		</record>
+   		<record model="workflow.transition" id="trans_contract_renew_done">
+			<field name="act_from" ref="act_renew" />
+			<field name="act_to" ref="act_done" />
+		</record>
+
+   		<record model="workflow.transition" id="trans_contract_no_renew_done">
+			<field name="act_from" ref="act_no_renew" />
+			<field name="act_to" ref="act_done" />
+		</record>
+   		
+   		
     </data>
 </openerp>
