@@ -80,10 +80,13 @@ class openstc_patrimoine_contract(OpenbaseCore):
     
     """ @note: return True if deadline_delay has expired, False otherwise"""
     def _get_delay_passed(self,cr, uid, ids, name ,args,context=None):
-        ret = {}.fromkeys(ids, False)
+        ret = {}.fromkeys(ids, {})
         for contract in self.browse(cr, uid, ids, context=context):
             delta = datetime.strptime(contract.date_end_order, '%Y-%m-%d') - datetime.now()
-            ret[contract.id] = delta.total_seconds() / (3600.0 *24.0) <= contract.deadline_delay
+            days_remaining = delta.total_seconds() / (3600.0 *24.0)
+            warning_delay = 30 #@TODO: move it to an ir.property
+            ret[contract.id] = {'delay_passed': days_remaining <= contract.deadline_delay,
+                                     'warning_delay': days_remaining <= contract.deadline_delay + warning_delay}
         return ret
     
     _actions = {
@@ -98,21 +101,25 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'name':fields.char('Name',size=128,required=True),
         "description":fields.text('Description'),
         'sequence':fields.char('Sequence',size=32),
+        'category_id':fields.many2one('openstc.patrimoine.contract.type', 'Category', required=True, select=True),
+        
         'patrimoine_is_equipment':fields.boolean('Is Equipment', required=True),
-        'equipment_id':fields.many2one('openstc.equipment','Equipment'),
-        'patrimoine_name':fields.function(_get_patrimony_name,type='char', fnct_search=_search_func_patrimoine_name, string='Patrimony',store=False),
-        'site_id':fields.many2one('openstc.site','Site'),
-        'internal_inter':fields.boolean('En régie',),
-        'supplier_id':fields.many2one('res.partner','Supplier', domain=[('supplier','=',True)]),
-        'technical_service_id':fields.many2one('openstc.service','Internal Service', domain=[('technical','=',True)],help="Technical service that will work according to this contract"),
-        'category_id':fields.many2one('openstc.patrimoine.contract.type', 'Category', required=True),
+        'equipment_id':fields.many2one('openstc.equipment','Equipment', select=True),
+        'patrimoine_name':fields.function(_get_patrimony_name,type='char', select=True, fnct_search=_search_func_patrimoine_name, string='Patrimony',store=False),
+        'site_id':fields.many2one('openstc.site','Site', select=True),
+        'internal_inter':fields.boolean('En régie',select=True),
+        'supplier_id':fields.many2one('res.partner','Supplier', domain=[('supplier','=',True)], select=True),
+        'technical_service_id':fields.many2one('openstc.service','Internal Service', domain=[('technical','=',True)],help="Technical service that will work according to this contract", select=True),
         'provider_name': fields.function(_get_provider_name, type='char',  fnct_search=_search_func_provider_name, string='Provider', store=False),
-        'date_start_order':fields.date('Date Start Contract', help="Start Date of the application of the contract"),
+        
+        'date_start_order':fields.date('Date Start Contract', help="Start Date of the application of the contract", select=True),
         'date_order':fields.date('Date order'),
-        'date_end_order':fields.date('Date end Contract',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.'),
+        'date_end_order':fields.date('Date end Contract',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.', select=True),
         'deadline_delay':fields.integer('Delay (days)'),
         'type_renewal':fields.selection(_get_type_renewal_values, 'Type renewal'),
-        'delay_passed':fields.function(_get_delay_passed, method=True, type='boolean', string='To renew', store=False),
+        'delay_passed':fields.function(_get_delay_passed, multi="delay", method=True, type='boolean', string='To renew', store=False),
+        'warning_delay':fields.function(_get_delay_passed, multi="delay", method=True, type='boolean', string='Near to be renewed', store=False),
+        
         'renewed':fields.boolean('Had been renew ?'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
         
