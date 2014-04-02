@@ -98,6 +98,15 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'close':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
         }
     
+    """ write the priority of the record according to its state and the values of 'order' list variable """
+    def _get_state_order(self, cr, uid, ids, name, args, context=None):
+        order = ['draft','wait','confirm','done']
+        max_order = len(order)
+        ret = {}.fromkeys(ids, max_order)
+        for contract in self.browse(cr, uid, ids, context=context):
+            ret[contract.id] = order.index(contract.state) if contract.state in order else max_order
+        return ret
+    
     _columns = {
         'name':fields.char('Name',size=128,required=True),
         "description":fields.text('Description'),
@@ -123,9 +132,10 @@ class openstc_patrimoine_contract(OpenbaseCore):
         
         'renewed':fields.boolean('Had been renew ?'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
+        'state_order':fields.function(_get_state_order, method=True, required=True, type='integer', store=True),
         
         }
-
+    
     _defaults = {
         'sequence':lambda self,cr,uid,ctx: self.pool.get("ir.sequence").next_by_code(cr, uid, 'contract.number', ctx),
         'state':lambda *a: 'draft',
@@ -135,6 +145,8 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'type_renewal': lambda *a: 'auto',
         'renewed': lambda *a: False,
         }
+    
+    _order = "state_order"
     
     def wkf_draft(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state':'draft'},context=context)
