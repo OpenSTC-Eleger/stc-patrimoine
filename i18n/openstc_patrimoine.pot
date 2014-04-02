@@ -110,7 +110,7 @@ msgstr ""
 #. module: openstc_patrimoine
 #: model:ir.actions.act_window,name:openstc_patrimoine.action_openstc_patrimoine_contract_inter_type_form
 #: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract_inter_type_action_view_all
-msgid "Intevention types"
+msgid "Contract types"
 msgstr ""
 
 #. module: openstc_patrimoine

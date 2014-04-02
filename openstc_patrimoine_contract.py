@@ -133,7 +133,6 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'renewed':fields.boolean('Had been renew ?'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
         'state_order':fields.function(_get_state_order, method=True, required=True, type='integer', store=True),
-        
         }
     
     _defaults = {
