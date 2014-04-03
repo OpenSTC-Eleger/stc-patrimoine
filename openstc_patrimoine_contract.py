@@ -210,8 +210,17 @@ openstc_patrimoine_contract()
 
 class openstc_patrimoine_contract_intervention_type(OpenbaseCore):
     _name = "openstc.patrimoine.contract.type"
+    
+    _actions = {
+        'update':lambda self,cr,uid,record,groups_code: True,
+        'delete':lambda self,cr,uid,record,groups_code: True,
+        
+        }
+    
     _columns = {
         'name':fields.char('Name',size=128, required=True),
+        'code':fields.char('Name',size=32, required=False),
+        'parent_id':fields.many2one('openstc.patrimoine.contract.type', 'Parent'),
         }
 
 openstc_patrimoine_contract_intervention_type()
