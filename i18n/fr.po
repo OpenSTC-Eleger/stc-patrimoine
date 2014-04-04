@@ -377,6 +377,11 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: openstc_patrimoine
+#: selection:openstc.patrimoine.contract,state:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: openstc_patrimoine
 #: selection:openstc.task.recurrence,recurrence:0
 msgid "Week"
 msgstr "Semaine"

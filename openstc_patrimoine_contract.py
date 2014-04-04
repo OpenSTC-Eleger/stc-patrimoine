@@ -68,7 +68,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
             search_args.extend(['|',('technical_service_id.name',arg[1],arg[2]),('partner_id.name',arg[1],arg[2])])
         return search_args
         
-    _AVAILABLE_STATE_VALUES = [('draft','Draft'),('wait','Wait'),('confirm','Confirm'),('done','Done')]
+    _AVAILABLE_STATE_VALUES = [('draft','Draft'),('wait','Wait'),('confirm','Confirm'),('done','Done'), ('cancel','Cancel')]
     
     """ @return: list of tuples of available 'type renewals' (key,value)
     @note: Override this method to update this list instead of its private name-like method"""
@@ -96,6 +96,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
         #'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
         'renew':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
         'close':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
+        'cancel':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
         }
     
     """ write the priority of the record according to its state and the values of 'order' list variable """
@@ -133,6 +134,8 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'renewed':fields.boolean('Had been renew ?'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
         'state_order':fields.function(_get_state_order, method=True, required=True, type='integer', store=True),
+        
+        'cancel_reason':fields.text('Cancel Reason'),
         }
     
     _defaults = {
@@ -173,6 +176,10 @@ class openstc_patrimoine_contract(OpenbaseCore):
     def wkf_no_renew(self, cr, uid, ids, context=None):
         return True
 
+    def wkf_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state':'cancel'},context=context)
+        return True
+
     def onchange_patrimoine_is_equipment(self, cr, uid, ids, patrimoine_is_equipment=False):
         if patrimoine_is_equipment:
             return {'value':{'site_id':False}}
@@ -199,11 +206,14 @@ class openstc_patrimoine_contract(OpenbaseCore):
     
     def write(self, cr, uid, ids, vals, context=None):
         wkf_service = netsvc.LocalService('workflow')
+        signal = False
         if 'wkf_evolve' in vals:
             signal = vals.pop('wkf_evolve')
+        super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=context)
+        if signal:
             for id in ids:
                 wkf_service.trg_validate(uid, 'openstc.patrimoine.contract', id, signal, cr)
-        return super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=context)
+        return True 
     
 openstc_patrimoine_contract()
 

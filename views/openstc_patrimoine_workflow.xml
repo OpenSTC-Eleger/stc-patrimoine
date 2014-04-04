@@ -79,6 +79,14 @@
 			<field name="action">wkf_done()</field>
 		</record>
 		
+        <record model="workflow.activity" id="act_cancel">
+			<field name="wkf_id" ref="wkf_contract" />
+			<field name="name">Cancel</field>
+			<field name="kind">function</field>
+			<field name="flow_stop" eval="True"/>
+			<field name="action">wkf_cancel()</field>
+		</record>
+        
    		<record model="workflow.transition" id="trans_contract_draft_wait">
 			<field name="act_from" ref="act_draft" />
 			<field name="act_to" ref="act_wait" />
@@ -132,6 +140,7 @@
 			<field name="act_to" ref="act_no_renew" />
 			<field name="signal">close</field>
 		</record>
+		
    		<record model="workflow.transition" id="trans_contract_renew_done">
 			<field name="act_from" ref="act_renew" />
 			<field name="act_to" ref="act_done" />
@@ -142,6 +151,11 @@
 			<field name="act_to" ref="act_done" />
 		</record>
    		
+   		<record model="workflow.transition" id="trans_contract_confirm_cancel">
+			<field name="act_from" ref="act_confirm" />
+			<field name="act_to" ref="act_cancel" />
+			<field name="signal">cancel</field>
+		</record>
    		
     </data>
 </openerp>
