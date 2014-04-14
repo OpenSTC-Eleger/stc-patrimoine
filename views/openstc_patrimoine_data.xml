@@ -11,6 +11,17 @@
 			<field name="prefix">C-%(year)s/</field>
 			<field name="padding" eval="4" />
 		</record>
+	
+	</data>
+	<data>
+	    
+	    <record id="filter_contract_near_to_expire" model="ir.filters">
+		    <field name="name">Contrats arrivant à expiration</field>
+		    <field name="description">Contrats dont la validité (ou le délai de rétractation) arrivent à expiration</field>
+		    <field name="model_id">openstc.patrimoine.contract</field>
+		    <field name="pre_recorded" eval="True"/>
+		    <field name="domain">[{"field":"warning_delay","operator":"=","value":true},{"field":"state","operator":"not in","value":["done","cancel"]}]</field>
+		</record>
 	    
 	</data>
 </openerp>
