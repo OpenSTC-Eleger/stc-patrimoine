@@ -23,6 +23,7 @@ from osv import fields, osv
 import calendar
 from mx.DateTime.mxDateTime import strptime
 from datetime import datetime
+from datetime import timedelta
 from lxml import etree
 from lxml.builder import E
 import re
@@ -68,6 +69,18 @@ class openstc_patrimoine_contract(OpenbaseCore):
             search_args.extend(['|',('technical_service_id.name',arg[1],arg[2]),('partner_id.name',arg[1],arg[2])])
         return search_args
         
+    def _search_warning_delay(self, cr, uid, obj ,name, args, context=None):
+        ret = []
+        cr.execute(''' select id from openstc_patrimoine_contract 
+        where date(date_end_order) - date(now()) < 30 + deadline_delay;''')
+        ids = cr.fetchall()
+        if ids:
+            for f,o,v in args:
+                ret.append(('id','in' if v else 'not in',ids))
+        else:
+            ret.append(('id','=',0))
+        return ret
+    
     _AVAILABLE_STATE_VALUES = [('draft','Draft'),('wait','Wait'),('confirm','Confirm'),('done','Done'), ('cancel','Cancel')]
     
     """ @return: list of tuples of available 'type renewals' (key,value)
@@ -80,13 +93,17 @@ class openstc_patrimoine_contract(OpenbaseCore):
     
     """ @note: return True if deadline_delay has expired, False otherwise"""
     def _get_delay_passed(self,cr, uid, ids, name ,args,context=None):
-        ret = {}.fromkeys(ids, {})
+        ret = {}.fromkeys(ids, {'delay_passed': False, 'warning_delay':False})
         for contract in self.browse(cr, uid, ids, context=context):
-            delta = datetime.strptime(contract.date_end_order, '%Y-%m-%d') - datetime.now()
-            days_remaining = delta.total_seconds() / (3600.0 *24.0)
-            warning_delay = 30 #@TODO: move it to an ir.property
-            ret[contract.id] = {'delay_passed': days_remaining <= contract.deadline_delay,
-                                     'warning_delay': days_remaining <= contract.deadline_delay + warning_delay}
+            if contract.state not in ('done','cancel'):
+                delta = datetime.strptime(contract.date_end_order, '%Y-%m-%d') - datetime.now()
+                contract_remaining_duration = delta.total_seconds() / (3600.0 *24.0)
+                #Delay the user has for confirming / canceling renewal
+                renewal_remaining_delay = contract_remaining_duration -  contract.deadline_delay
+                warning_delay = 30 #@TODO: move it to an ir.property
+                ret[contract.id] = {'delay_passed': renewal_remaining_delay <= 0,
+                                     'warning_delay': renewal_remaining_delay < warning_delay,
+                                     'remaining_delay': renewal_remaining_delay}
         return ret
        
     _actions = {
@@ -94,8 +111,8 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         #'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
-        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
-        'close':lambda self,cr,uid,record,groups_code: record.state not in ('done','draft'),
+        'renew':lambda self,cr,uid,record,groups_code: record.state not in ('cancel', 'done','draft'),
+        'close':lambda self,cr,uid,record,groups_code: record.state not in ('cancel', 'done','draft'),
         'cancel':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
         }
     
@@ -111,6 +128,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
     _columns = {
         'name':fields.char('Name',size=128,required=True),
         "description":fields.text('Description'),
+        "new_description":fields.text('Description of the new contract'),
         'sequence':fields.char('Sequence',size=32),
         'category_id':fields.many2one('openstc.patrimoine.contract.type', 'Category', required=True, select=True),
         
@@ -124,16 +142,18 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'provider_name': fields.function(_get_provider_name, type='char',  fnct_search=_search_func_provider_name, string='Provider', store=False),
         
         'date_start_order':fields.date('Date Start Contract', help="Start Date of the application of the contract", select=True),
+        'new_date_start_order':fields.date('Date Start of the new Contract', help="Start Date of the application of the new contract"),
         'date_order':fields.date('Date order'),
         'date_end_order':fields.date('Date end Contract',help='Date of the end of this contract. When ended, you could extend it\'s duration or create a new contract.', select=True),
+        'new_date_end_order':fields.date('Date end new Contract',help='Date of the end of the new contract'),
         'deadline_delay':fields.integer('Delay (days)'),
         'type_renewal':fields.selection(_get_type_renewal_values, 'Type renewal'),
         'delay_passed':fields.function(_get_delay_passed, multi="delay", method=True, type='boolean', string='To renew', store=False),
-        'warning_delay':fields.function(_get_delay_passed, multi="delay", method=True, type='boolean', string='Near to be renewed', store=False),
+        'warning_delay':fields.function(_get_delay_passed, multi="delay", fnct_search= _search_warning_delay,  method=True, type='boolean', string='Near to be renewed', store=False),
+        'remaining_delay':fields.function(_get_delay_passed, multi="delay", method=True, type="integer", string="contract remaining duration", store=False),
         
-        'renewed':fields.boolean('Had been renew ?'),
         'state':fields.selection(_AVAILABLE_STATE_VALUES, 'State', readonly=True, required=True),
-        'state_order':fields.function(_get_state_order, method=True, required=True, type='integer', store=True),
+        'state_order':fields.function(_get_state_order, method=True, required=False, type='integer', store=True),
         
         'cancel_reason':fields.text('Cancel Reason'),
         }
@@ -145,10 +165,24 @@ class openstc_patrimoine_contract(OpenbaseCore):
         'date_order':fields.date.context_today,
         'patrimoine_is_equipment':lambda *a: False,
         'type_renewal': lambda *a: 'auto',
-        'renewed': lambda *a: False,
         }
     
     _order = "state_order"
+    
+    """ @return: dict containing values for future renewal contract : 
+    * new date start : current date end
+    * new date end : new date start + duration of the original contract"""
+    def update_new_contract_values(self, cr, uid, ids):
+        for contract in self.browse(cr, uid, ids):
+            date_end = datetime.strptime(contract.date_end_order, '%Y-%m-%d')
+            date_start = datetime.strptime(contract.date_start_order, '%Y-%m-%d')
+            delta = date_end - date_start
+            new_date_end = date_end + delta
+            vals = {'new_description':contract.description,
+                    'new_date_start_order':contract.date_end_order,
+                    'new_date_end_order': new_date_end.strftime('%Y-%m-%d')}
+            contract.write(vals)
+        return True
     
     def wkf_draft(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state':'draft'},context=context)
@@ -159,6 +193,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
         return True
     
     def wkf_wait(self, cr, uid, ids, context=None):
+        self.update_new_contract_values(cr, uid, ids)
         self.write(cr, uid, ids, {'state':'wait'},context=context)
         return True
     
@@ -188,13 +223,10 @@ class openstc_patrimoine_contract(OpenbaseCore):
     """@note: Return specific values for the newly created contract
     same duration as original contract, new contract begin at date_end of original one """
     def prepare_default_values_renewed_contract(self, cr, uid, original_contract, context=None):
-        date_end = datetime.strptime(original_contract.date_end_order, '%Y-%m-%d')
-        date_start = datetime.strptime(original_contract.date_start_order, '%Y-%m-%d')
-        delta = date_end - date_start
-        new_date_end = date_end + delta 
         return {
-            'date_start_order':original_contract.date_end_order,
-            'date_end_order':new_date_end.strftime('%Y-%m-%d'),
+            'date_start_order':original_contract.new_date_start_order,
+            'date_end_order':original_contract.new_date_end_order,
+            'description':original_contract.new_description
             }
     
     """ @note: for each contract, create a new one with same setting"""
