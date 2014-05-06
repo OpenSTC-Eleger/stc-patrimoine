@@ -31,7 +31,7 @@ from tools.translate import _
 import netsvc
 class openstc_patrimoine_contract(OpenbaseCore):
     _name = "openstc.patrimoine.contract"
-    
+    _parent_name = 'original_contract_id'
     
     def _get_patrimony_name(self, cr, uid, ids, name ,args, context=None):
         ret = {}
@@ -107,13 +107,14 @@ class openstc_patrimoine_contract(OpenbaseCore):
         return ret
        
     _actions = {
-        'update':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
+        'update':lambda self,cr,uid,record,groups_code: record.state in ('draft',),
         'delete':lambda self,cr,uid,record,groups_code: record.state in ('draft','wait'),
         'confirm':lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         #'done':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
         'renew':lambda self,cr,uid,record,groups_code: record.state not in ('cancel', 'done','draft'),
         'close':lambda self,cr,uid,record,groups_code: record.state not in ('cancel', 'done','draft'),
         'cancel':lambda self,cr,uid,record,groups_code: record.state in ('confirm',),
+        'redraft': lambda self,cr,uid,record,groups_code: record.state in ('wait',),
         }
     
     """ write the priority of the record according to its state and the values of 'order' list variable """
@@ -131,6 +132,7 @@ class openstc_patrimoine_contract(OpenbaseCore):
         "new_description":fields.text('Description of the new contract'),
         'sequence':fields.char('Sequence',size=32),
         'category_id':fields.many2one('openstc.patrimoine.contract.type', 'Category', required=True, select=True),
+        'original_contract_id':fields.many2one('openstc.patrimoine.contract', 'original contract'),
         
         'patrimoine_is_equipment':fields.boolean('Is Equipment', required=True),
         'equipment_id':fields.many2one('openstc.equipment','Equipment', select=True),
@@ -226,15 +228,18 @@ class openstc_patrimoine_contract(OpenbaseCore):
         return {
             'date_start_order':original_contract.new_date_start_order,
             'date_end_order':original_contract.new_date_end_order,
-            'description':original_contract.new_description
+            'description':original_contract.new_description,
+            'original_contract_id':original_contract.id
             }
     
     """ @note: for each contract, create a new one with same setting"""
     def renew(self, cr, uid, ids, context=None):
+        ret = []
         for contract in self.browse(cr, uid, ids ,context=context):
             vals = self.prepare_default_values_renewed_contract(cr, uid, contract, context=context)
             new_id = self.copy(cr, uid, contract.id, vals, context=context)
-        return True
+            ret.append(new_id)
+        return ret
     
     def write(self, cr, uid, ids, vals, context=None):
         wkf_service = netsvc.LocalService('workflow')
@@ -242,10 +247,14 @@ class openstc_patrimoine_contract(OpenbaseCore):
         if 'wkf_evolve' in vals:
             signal = vals.pop('wkf_evolve')
         super(openstc_patrimoine_contract, self).write(cr, uid, ids, vals, context=context)
+        ret = []
         if signal:
             for id in ids:
                 wkf_service.trg_validate(uid, 'openstc.patrimoine.contract', id, signal, cr)
-        return True 
+                #try to fetch updated values (work fine for renew action)
+                #but if other records are updated without having a link with current id, it won't be returned in 'ret' list
+                ret.extend(self.search(cr, uid, [('original_contract_id','child_of', id)], context=context))
+        return ret if ret else True
     
 openstc_patrimoine_contract()
 
