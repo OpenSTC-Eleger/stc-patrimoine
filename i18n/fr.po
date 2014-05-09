@@ -555,8 +555,8 @@ msgstr "Date de début d'application du contrat"
 
 #. module: openstc_patrimoine
 #: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract
-msgid "Gestion Contrats"
-msgstr "Gestion Contrats"
+msgid "Gestion du Patrimoine"
+msgstr "Gestion du Patrimoine"
 
 #. module: openstc_patrimoine
 #: model:ir.model,name:openstc_patrimoine.model_product_product

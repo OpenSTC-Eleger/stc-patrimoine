@@ -555,7 +555,7 @@ msgstr ""
 
 #. module: openstc_patrimoine
 #: model:ir.ui.menu,name:openstc_patrimoine.openstc_patrimoine_contract
-msgid "Gestion Contrats"
+msgid "Gestion du Patrimoine"
 msgstr ""
 
 #. module: openstc_patrimoine
